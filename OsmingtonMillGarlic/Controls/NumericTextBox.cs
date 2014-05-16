@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -125,10 +126,16 @@ namespace OsmingtonMillGarlic.Controls
 			{
 				int result = 0;
 
-				if (!int.TryParse(this.Text, out result))
+				if (!int.TryParse(this.Text,
+								 NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint,
+								 CultureInfo.CurrentCulture,
+								 out result))
 				{
 					Decimal temp;
-					if(Decimal.TryParse(this.Text, out temp))
+					if (Decimal.TryParse(this.Text,
+								 NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint,
+								 CultureInfo.CurrentCulture,
+								 out temp))
 					{
 						result = (int)temp;
 					}
@@ -144,7 +151,10 @@ namespace OsmingtonMillGarlic.Controls
 			{
 				Decimal result = 0;
 
-				Decimal.TryParse(this.Text, out result);
+				Decimal.TryParse(this.Text, 
+								 NumberStyles.AllowCurrencySymbol | NumberStyles.AllowDecimalPoint,
+								 CultureInfo.CurrentCulture,
+								 out result);
 				
 				return result;
 			}

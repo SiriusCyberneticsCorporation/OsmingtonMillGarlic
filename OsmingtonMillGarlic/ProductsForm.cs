@@ -36,15 +36,7 @@ namespace OsmingtonMillGarlic
 
 		private void ProductsForm_Load(object sender, EventArgs e)
 		{
-			string productsSql = "SELECT * FROM Products";
-
-			ProductsDataSet.Tables["Products"].Clear();
-
-			DataTable productsDataTable = m_databaseAccess.ExecuteSelect(productsSql);
-			if (productsDataTable != null && productsDataTable.Rows.Count > 0)
-			{
-				ProductsDataSet.Tables["Products"].Merge(productsDataTable);
-			}			
+			FetchData();
 		}
 
 		private void SaveButton_Click(object sender, EventArgs e)
@@ -87,6 +79,19 @@ namespace OsmingtonMillGarlic
 			return result;
 		}
 
+		private void FetchData()
+		{
+			string productsSql = "SELECT * FROM Products ORDER BY DisplayOrder";
+
+			ProductsDataSet.Tables["Products"].Clear();
+
+			DataTable productsDataTable = m_databaseAccess.ExecuteSelect(productsSql);
+			if (productsDataTable != null && productsDataTable.Rows.Count > 0)
+			{
+				ProductsDataSet.Tables["Products"].Merge(productsDataTable);
+			}
+		}
+
 		private bool SaveChanges()
 		{
 			bool successful = true;
@@ -105,8 +110,7 @@ namespace OsmingtonMillGarlic
 				// If all saves have been successful then commit the transaction.
 				if (successful && m_databaseAccess.CommitTransaction())
 				{
-					// Tell the DataSet to accept all changes so that subsequent changes made by the user will show up.
-					ProductsDataSet.AcceptChanges();
+					FetchData();
 				}
 				else
 				{

@@ -81,7 +81,7 @@ namespace OsmingtonMillGarlic.Controls
 				case Keys.Left:
 				case Keys.Up:
 				case Keys.Down:
-				case Keys.Right:
+//				case Keys.Right:
 				case Keys.Home:
 				case Keys.End:
 				case Keys.PageDown:

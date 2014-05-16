@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.MarketsDataSet = new System.Data.DataSet();
 			this.MarketsDataTable = new System.Data.DataTable();
 			this.dataColumn1 = new System.Data.DataColumn();
@@ -39,7 +40,7 @@
 			this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.marketDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.marketLocationDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.takingsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.ActualCashAfterMarket = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Comments = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.MarketsDataSet)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.MarketsDataTable)).BeginInit();
@@ -78,7 +79,7 @@
 			// 
 			// dataColumn4
 			// 
-			this.dataColumn4.ColumnName = "Takings";
+			this.dataColumn4.ColumnName = "ActualCashAfterMarket";
 			this.dataColumn4.DataType = typeof(decimal);
 			// 
 			// dataColumn5
@@ -99,7 +100,7 @@
             this.IDColumn,
             this.marketDateDataGridViewTextBoxColumn,
             this.marketLocationDataGridViewTextBoxColumn,
-            this.takingsDataGridViewTextBoxColumn,
+            this.ActualCashAfterMarket,
             this.Comments});
 			this.MarketsDataGridViewWithPaste.DataMember = "Markets";
 			this.MarketsDataGridViewWithPaste.DataSource = this.MarketsDataSet;
@@ -133,12 +134,15 @@
 			this.marketLocationDataGridViewTextBoxColumn.Name = "marketLocationDataGridViewTextBoxColumn";
 			this.marketLocationDataGridViewTextBoxColumn.ReadOnly = true;
 			// 
-			// takingsDataGridViewTextBoxColumn
+			// ActualCashAfterMarket
 			// 
-			this.takingsDataGridViewTextBoxColumn.DataPropertyName = "Takings";
-			this.takingsDataGridViewTextBoxColumn.HeaderText = "Takings";
-			this.takingsDataGridViewTextBoxColumn.Name = "takingsDataGridViewTextBoxColumn";
-			this.takingsDataGridViewTextBoxColumn.ReadOnly = true;
+			this.ActualCashAfterMarket.DataPropertyName = "ActualCashAfterMarket";
+			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			dataGridViewCellStyle1.Format = "C2";
+			this.ActualCashAfterMarket.DefaultCellStyle = dataGridViewCellStyle1;
+			this.ActualCashAfterMarket.HeaderText = "Takings";
+			this.ActualCashAfterMarket.Name = "ActualCashAfterMarket";
+			this.ActualCashAfterMarket.ReadOnly = true;
 			// 
 			// Comments
 			// 
@@ -180,7 +184,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn marketDateDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn marketLocationDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn takingsDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn ActualCashAfterMarket;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Comments;
 	}
 }

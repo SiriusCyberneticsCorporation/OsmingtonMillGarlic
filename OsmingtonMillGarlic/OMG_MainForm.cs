@@ -12,13 +12,6 @@ namespace OsmingtonMillGarlic
 {
 	public partial class OMG_MainForm : Form
 	{
-		/*
-		private ProductsForm m_productsForm = new ProductsForm();
-		private MarketsForm m_marketsForm = new MarketsForm();
-		private MarketAttendedForm m_newMarketForm = new MarketAttendedForm(-1);
-		private InvoicesForm m_invoicesForm = new InvoicesForm();
-		*/
-
 		public OMG_MainForm()
 		{
 			InitializeComponent();
@@ -30,12 +23,6 @@ namespace OsmingtonMillGarlic
 			{
 				((IChildForm)childForm).RefreshDisplay();
 			}
-			/*
-			m_productsForm.RefreshDisplay();
-			m_marketsForm.RefreshDisplay();
-			m_newMarketForm.RefreshDisplay();
-			m_invoicesForm.RefreshDisplay();
-			*/
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -45,6 +32,7 @@ namespace OsmingtonMillGarlic
 
 		private void ShowChildForm(Form childForm)
 		{
+			childForm.WindowState = FormWindowState.Maximized;
 			childForm.MdiParent = this;
 			childForm.Show();
 			childForm.BringToFront();
@@ -68,22 +56,12 @@ namespace OsmingtonMillGarlic
 
 		private void ListAllProductsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Form existingInstance = GetExistingInstance(typeof(ProductsForm));
-
-			if(existingInstance != null)
-			{
-				ShowChildForm(existingInstance);
-			}
-			else
-			{
-				ShowChildForm(new ProductsForm());
-			}
-			//ShowChildForm(m_productsForm);
+			ShowProductsForm();
 		}
 
 		private void ListAllMarketsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ShowChildForm(m_marketsForm);
+			ShowMarketsForm();
 		}
 		
 		private void newMarketToolStripMenuItem_Click(object sender, EventArgs e)
@@ -93,24 +71,25 @@ namespace OsmingtonMillGarlic
 
 		private void ListAllInvoicesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			ShowChildForm(m_invoicesForm);
+			ShowInvoicesForm();
 		}
 
 		private void OMG_MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			bool okToClose = true;
 
-			if (okToClose && m_productsForm != null)
+			foreach (Form childForm in this.MdiChildren)
 			{
-				okToClose = ((IChildForm)m_productsForm).CanClose();
+				if(!((IChildForm)childForm).CanClose())
+				{
+					okToClose = false;
+					break;
+				}
 			}
-			if (okToClose && m_marketsForm != null)
+
+			if (!okToClose)
 			{
-				okToClose = ((IChildForm)m_marketsForm).CanClose();
-			}
-			if (okToClose && m_invoicesForm != null)
-			{
-				okToClose = ((IChildForm)m_invoicesForm).CanClose();
+				e.Cancel = true;
 			}
 		}
 
@@ -131,28 +110,23 @@ namespace OsmingtonMillGarlic
 
 		private void closeAllToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (m_productsForm != null && ((IChildForm)m_productsForm).CanClose())
+			foreach (Form childForm in this.MdiChildren)
 			{
-				m_productsForm.Close();
-			}
-			if (m_marketsForm != null && ((IChildForm)m_marketsForm).CanClose())
-			{
-				m_marketsForm.Close();
-			}
-			if (m_invoicesForm != null && ((IChildForm)m_invoicesForm).CanClose())
-			{
-				m_invoicesForm.Close();
+				if (((IChildForm)childForm).CanClose())
+				{
+					childForm.Close();
+				}
 			}
 		}
 
 		private void ProductsToolStripButton_Click(object sender, EventArgs e)
 		{
-			ShowChildForm(m_productsForm);
+			ShowProductsForm();
 		}
 
 		private void MarketsToolStripButton_Click(object sender, EventArgs e)
 		{
-			ShowChildForm(m_marketsForm);
+			ShowMarketsForm();
 		}
 
 		private void NewMarketToolStripButton_Click(object sender, EventArgs e)
@@ -162,22 +136,7 @@ namespace OsmingtonMillGarlic
 
 		private void InvoicesToolStripButton_Click(object sender, EventArgs e)
 		{
-			ShowChildForm(m_invoicesForm);
-		}
-
-		private void ShowProductsForm()
-		{
-			Form existingInstance = GetExistingInstance(typeof(ProductsForm));
-
-			if (existingInstance != null)
-			{
-				ShowChildForm(existingInstance);
-			}
-			else
-			{
-				ShowChildForm(new ProductsForm());
-			}
-			//ShowChildForm(m_productsForm);
+			ShowInvoicesForm();
 		}
 
 		private void ShowProductsForm()
@@ -208,9 +167,9 @@ namespace OsmingtonMillGarlic
 			}
 		}
 
-		private void ShowProductsForm()
+		private void ShowInvoicesForm()
 		{
-			Form existingInstance = GetExistingInstance(typeof(ProductsForm));
+			Form existingInstance = GetExistingInstance(typeof(InvoicesForm));
 
 			if (existingInstance != null)
 			{
@@ -218,14 +177,22 @@ namespace OsmingtonMillGarlic
 			}
 			else
 			{
-				ShowChildForm(new ProductsForm());
+				ShowChildForm(new InvoicesForm());
 			}
-			//ShowChildForm(m_productsForm);
 		}
 
 		private void NewMarket()
 		{
-			ShowChildForm(m_newMarketForm);
+			Form existingInstance = GetExistingInstance(typeof(MarketAttendedForm));
+
+			if (existingInstance != null && ((MarketAttendedForm)existingInstance).IsNewMarket)
+			{				
+				ShowChildForm(existingInstance);
+			}
+			else
+			{
+				ShowChildForm(new MarketAttendedForm(-1));
+			}
 		}
 	}
 }
