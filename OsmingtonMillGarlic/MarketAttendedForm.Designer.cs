@@ -29,9 +29,13 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
-			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.MarketAttendedDataSet = new System.Data.DataSet();
 			this.MarketsDataTable = new System.Data.DataTable();
 			this.dataColumn1 = new System.Data.DataColumn();
@@ -59,6 +63,7 @@
 			this.dataColumn13 = new System.Data.DataColumn();
 			this.dataColumn14 = new System.Data.DataColumn();
 			this.dataColumn15 = new System.Data.DataColumn();
+			this.dataColumn23 = new System.Data.DataColumn();
 			this.DateLabel = new System.Windows.Forms.Label();
 			this.LocationLabel = new System.Windows.Forms.Label();
 			this.StallCostsLabel = new System.Windows.Forms.Label();
@@ -77,7 +82,7 @@
 			this.BottomPanel = new System.Windows.Forms.Panel();
 			this.CommentsTextBox = new System.Windows.Forms.TextBox();
 			this.CommentsLabel = new System.Windows.Forms.Label();
-			this.dataColumn23 = new System.Data.DataColumn();
+			this.dataColumn24 = new System.Data.DataColumn();
 			this.ProductsDataGridViewWithPaste = new OsmingtonMillGarlic.Controls.DataGridViewWithPaste();
 			this.SundryItemsDataGridViewWithPaste = new OsmingtonMillGarlic.Controls.DataGridViewWithPaste();
 			this.Sundries_IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -93,6 +98,7 @@
 			this.Products_MarketIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Products_ProductIDColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.Products_TakenToMarketColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Products_AlterationsAtMarketColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Products_BroughtBackFromMarketColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Products_SoldAtMarketColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Products_AmountColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -180,7 +186,8 @@
             this.dataColumn9,
             this.dataColumn10,
             this.dataColumn11,
-            this.dataColumn12});
+            this.dataColumn12,
+            this.dataColumn24});
 			this.MarketProductsDataTable.TableName = "MarketProducts";
 			// 
 			// dataColumn6
@@ -270,6 +277,11 @@
 			// 
 			this.dataColumn15.ColumnName = "MarketPrice";
 			this.dataColumn15.DataType = typeof(decimal);
+			// 
+			// dataColumn23
+			// 
+			this.dataColumn23.ColumnName = "Active";
+			this.dataColumn23.DataType = typeof(bool);
 			// 
 			// DateLabel
 			// 
@@ -463,10 +475,10 @@
 			this.CommentsLabel.TabIndex = 10;
 			this.CommentsLabel.Text = "Comments";
 			// 
-			// dataColumn23
+			// dataColumn24
 			// 
-			this.dataColumn23.ColumnName = "Active";
-			this.dataColumn23.DataType = typeof(bool);
+			this.dataColumn24.ColumnName = "AlterationsAtMarket";
+			this.dataColumn24.DataType = typeof(int);
 			// 
 			// ProductsDataGridViewWithPaste
 			// 
@@ -478,6 +490,7 @@
             this.Products_MarketIDColumn,
             this.Products_ProductIDColumn,
             this.Products_TakenToMarketColumn,
+            this.Products_AlterationsAtMarketColumn,
             this.Products_BroughtBackFromMarketColumn,
             this.Products_SoldAtMarketColumn,
             this.Products_AmountColumn});
@@ -533,9 +546,9 @@
 			// Sundries_ProfitLossColumn
 			// 
 			this.Sundries_ProfitLossColumn.DataPropertyName = "ProfitLoss";
-			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			dataGridViewCellStyle3.Format = "C2";
-			this.Sundries_ProfitLossColumn.DefaultCellStyle = dataGridViewCellStyle3;
+			dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			dataGridViewCellStyle7.Format = "C2";
+			this.Sundries_ProfitLossColumn.DefaultCellStyle = dataGridViewCellStyle7;
 			this.Sundries_ProfitLossColumn.HeaderText = "Profit/Loss";
 			this.Sundries_ProfitLossColumn.Name = "Sundries_ProfitLossColumn";
 			// 
@@ -554,6 +567,7 @@
 			// 
 			// CashAfterMarketNumericTextBox
 			// 
+			this.CashAfterMarketNumericTextBox.AllowDecimal = true;
 			this.CashAfterMarketNumericTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.MarketAttendedBindingSource, "ActualCashAfterMarket", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
 			this.CashAfterMarketNumericTextBox.Location = new System.Drawing.Point(114, 90);
 			this.CashAfterMarketNumericTextBox.Name = "CashAfterMarketNumericTextBox";
@@ -587,6 +601,7 @@
 			// 
 			// StallCostsNumericTextBox
 			// 
+			this.StallCostsNumericTextBox.AllowDecimal = true;
 			this.StallCostsNumericTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.MarketAttendedBindingSource, "StallCosts", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
 			this.StallCostsNumericTextBox.Location = new System.Drawing.Point(114, 64);
 			this.StallCostsNumericTextBox.Name = "StallCostsNumericTextBox";
@@ -625,31 +640,53 @@
 			// Products_TakenToMarketColumn
 			// 
 			this.Products_TakenToMarketColumn.DataPropertyName = "TakenToMarket";
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.Products_TakenToMarketColumn.DefaultCellStyle = dataGridViewCellStyle2;
 			this.Products_TakenToMarketColumn.HeaderText = "Taken To Market";
 			this.Products_TakenToMarketColumn.Name = "Products_TakenToMarketColumn";
+			this.Products_TakenToMarketColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.Products_TakenToMarketColumn.Width = 80;
+			// 
+			// Products_AlterationsAtMarketColumn
+			// 
+			this.Products_AlterationsAtMarketColumn.DataPropertyName = "AlterationsAtMarket";
+			dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.Products_AlterationsAtMarketColumn.DefaultCellStyle = dataGridViewCellStyle3;
+			this.Products_AlterationsAtMarketColumn.HeaderText = "Alterations At Market";
+			this.Products_AlterationsAtMarketColumn.Name = "Products_AlterationsAtMarketColumn";
+			this.Products_AlterationsAtMarketColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.Products_AlterationsAtMarketColumn.Width = 80;
 			// 
 			// Products_BroughtBackFromMarketColumn
 			// 
 			this.Products_BroughtBackFromMarketColumn.DataPropertyName = "BroughtBackFromMarket";
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.Products_BroughtBackFromMarketColumn.DefaultCellStyle = dataGridViewCellStyle4;
 			this.Products_BroughtBackFromMarketColumn.HeaderText = "Brought Back From Market";
 			this.Products_BroughtBackFromMarketColumn.Name = "Products_BroughtBackFromMarketColumn";
+			this.Products_BroughtBackFromMarketColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.Products_BroughtBackFromMarketColumn.Width = 80;
 			// 
 			// Products_SoldAtMarketColumn
 			// 
 			this.Products_SoldAtMarketColumn.DataPropertyName = "SoldAtMarket";
+			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.Products_SoldAtMarketColumn.DefaultCellStyle = dataGridViewCellStyle5;
 			this.Products_SoldAtMarketColumn.HeaderText = "Sold At Market";
 			this.Products_SoldAtMarketColumn.Name = "Products_SoldAtMarketColumn";
 			this.Products_SoldAtMarketColumn.ReadOnly = true;
+			this.Products_SoldAtMarketColumn.Width = 80;
 			// 
 			// Products_AmountColumn
 			// 
 			this.Products_AmountColumn.DataPropertyName = "Amount";
-			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			dataGridViewCellStyle2.Format = "C2";
-			this.Products_AmountColumn.DefaultCellStyle = dataGridViewCellStyle2;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			dataGridViewCellStyle6.Format = "C2";
+			this.Products_AmountColumn.DefaultCellStyle = dataGridViewCellStyle6;
 			this.Products_AmountColumn.HeaderText = "Amount";
 			this.Products_AmountColumn.Name = "Products_AmountColumn";
 			this.Products_AmountColumn.ReadOnly = true;
+			this.Products_AmountColumn.Width = 80;
 			// 
 			// MarketAttendedForm
 			// 
@@ -741,10 +778,12 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn Sundries_DescriptionColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Sundries_ProfitLossColumn;
 		private System.Data.DataColumn dataColumn23;
+		private System.Data.DataColumn dataColumn24;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Products_IDColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Products_MarketIDColumn;
 		private System.Windows.Forms.DataGridViewComboBoxColumn Products_ProductIDColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Products_TakenToMarketColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Products_AlterationsAtMarketColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Products_BroughtBackFromMarketColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Products_SoldAtMarketColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Products_AmountColumn;

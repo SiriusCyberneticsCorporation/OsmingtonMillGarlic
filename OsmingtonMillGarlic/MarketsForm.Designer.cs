@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.MarketsDataSet = new System.Data.DataSet();
 			this.MarketsDataTable = new System.Data.DataTable();
 			this.dataColumn1 = new System.Data.DataColumn();
@@ -123,6 +124,8 @@
 			// marketDateDataGridViewTextBoxColumn
 			// 
 			this.marketDateDataGridViewTextBoxColumn.DataPropertyName = "MarketDate";
+			dataGridViewCellStyle1.Format = "dd-MMM-yyyy";
+			this.marketDateDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
 			this.marketDateDataGridViewTextBoxColumn.HeaderText = "Date";
 			this.marketDateDataGridViewTextBoxColumn.Name = "marketDateDataGridViewTextBoxColumn";
 			this.marketDateDataGridViewTextBoxColumn.ReadOnly = true;
@@ -137,9 +140,9 @@
 			// ActualCashAfterMarket
 			// 
 			this.ActualCashAfterMarket.DataPropertyName = "ActualCashAfterMarket";
-			dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			dataGridViewCellStyle1.Format = "C2";
-			this.ActualCashAfterMarket.DefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			dataGridViewCellStyle2.Format = "C2";
+			this.ActualCashAfterMarket.DefaultCellStyle = dataGridViewCellStyle2;
 			this.ActualCashAfterMarket.HeaderText = "Takings";
 			this.ActualCashAfterMarket.Name = "ActualCashAfterMarket";
 			this.ActualCashAfterMarket.ReadOnly = true;

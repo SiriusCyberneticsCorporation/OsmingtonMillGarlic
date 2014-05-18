@@ -35,16 +35,30 @@ namespace OsmingtonMillGarlic
 			if (!m_updatingData && e.RowIndex >= 0 && e.RowIndex < ProductsDataGridViewWithPaste.Rows.Count)
 			{
 				m_updatingData = true;
-
+				
 				ProductsDataGridViewWithPaste.Rows[e.RowIndex].Cells["Products_MarketIDColumn"].Value = m_marketID;
 
 				int productID = DatabaseAccess.GetInt(ProductsDataGridViewWithPaste.Rows[e.RowIndex].Cells["Products_ProductIDColumn"].Value);
 				int takenTo = DatabaseAccess.GetInt(ProductsDataGridViewWithPaste.Rows[e.RowIndex].Cells["Products_TakenToMarketColumn"].Value);
+				int alterations = DatabaseAccess.GetInt(ProductsDataGridViewWithPaste.Rows[e.RowIndex].Cells["Products_AlterationsAtMarketColumn"].Value);
 				int broughtBack = DatabaseAccess.GetInt(ProductsDataGridViewWithPaste.Rows[e.RowIndex].Cells["Products_BroughtBackFromMarketColumn"].Value);
 
-				if (takenTo > broughtBack)
+				if (broughtBack == 0)
 				{
-					int numberSold = takenTo - broughtBack;
+					DataRow[] existingRows = MarketAttendedDataSet.Tables["MarketProducts"].Select("ProductID = " + productID.ToString());
+					if (existingRows.Length > 0)
+					{
+						if (existingRows[0]["TakenToMarket", DataRowVersion.Current] == DBNull.Value)
+						{
+							ProductsDataGridViewWithPaste.Rows[e.RowIndex].Cells["Products_BroughtBackFromMarketColumn"].Value = takenTo;
+							broughtBack = takenTo;
+						}
+					}
+				}
+
+				if (takenTo > broughtBack || alterations != 0)
+				{
+					int numberSold = takenTo + alterations - broughtBack;
 					DataRow[] product = MarketAttendedDataSet.Tables["Products"].Select("ID = " + DatabaseAccess.FormatNumber(productID));
 
 					ProductsDataGridViewWithPaste.Rows[e.RowIndex].Cells["Products_SoldAtMarketColumn"].Value = numberSold;
@@ -331,6 +345,7 @@ namespace OsmingtonMillGarlic
 				// If all saves have been successful then commit the transaction.
 				if (successful && m_databaseAccess.CommitTransaction())
 				{
+					((OMG_MainForm)this.MdiParent).RefreshDisplay();
 					FetchData();
 				}
 				else
