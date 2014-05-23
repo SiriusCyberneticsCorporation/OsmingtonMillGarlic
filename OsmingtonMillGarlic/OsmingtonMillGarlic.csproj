@@ -35,6 +35,9 @@
     <ApplicationIcon>OMG Stencil.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="MySql.Data, Version=6.7.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files\MySQL\MySQL Connector Net 6.7.4\Assemblies\v4.5\MySql.Data.dll</HintPath>
@@ -51,6 +54,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddEditInvoiceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEditInvoiceForm.Designer.cs">
+      <DependentUpon>AddEditInvoiceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CalendarCell.cs" />
     <Compile Include="Controls\CalendarColumn.cs" />
     <Compile Include="Controls\CalendarEditingControl.cs">
@@ -107,6 +116,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddEditInvoiceForm.resx">
+      <DependentUpon>AddEditInvoiceForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InvoicesForm.resx">
       <DependentUpon>InvoicesForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -40,8 +40,10 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(284, 261);
+			this.ClientSize = new System.Drawing.Size(599, 402);
 			this.Name = "InvoicesForm";
+			this.ShowIcon = false;
+			this.ShowInTaskbar = false;
 			this.Text = "Invoices";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.InvoicesForm_FormClosing);
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataSet)).EndInit();
