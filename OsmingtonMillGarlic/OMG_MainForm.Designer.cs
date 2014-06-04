@@ -47,9 +47,14 @@
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.ProductsToolStripButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.MarketsToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.NewMarketToolStripButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+			this.CashManagementToolStripButton = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.InvoicesToolStripButton = new System.Windows.Forms.ToolStripButton();
+			this.NewInvoiceToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.MainMenu.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -190,9 +195,14 @@
 			// 
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ProductsToolStripButton,
+            this.toolStripSeparator1,
             this.MarketsToolStripButton,
             this.NewMarketToolStripButton,
-            this.InvoicesToolStripButton});
+            this.toolStripSeparator2,
+            this.CashManagementToolStripButton,
+            this.toolStripSeparator3,
+            this.InvoicesToolStripButton,
+            this.NewInvoiceToolStripButton});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 24);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(954, 25);
@@ -201,44 +211,84 @@
 			// 
 			// ProductsToolStripButton
 			// 
+			this.ProductsToolStripButton.AutoSize = false;
 			this.ProductsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.ProductsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("ProductsToolStripButton.Image")));
 			this.ProductsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.ProductsToolStripButton.Name = "ProductsToolStripButton";
-			this.ProductsToolStripButton.Size = new System.Drawing.Size(58, 22);
+			this.ProductsToolStripButton.Size = new System.Drawing.Size(85, 22);
 			this.ProductsToolStripButton.Text = "Products";
 			this.ProductsToolStripButton.Click += new System.EventHandler(this.ProductsToolStripButton_Click);
 			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
 			// MarketsToolStripButton
 			// 
+			this.MarketsToolStripButton.AutoSize = false;
 			this.MarketsToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.MarketsToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("MarketsToolStripButton.Image")));
 			this.MarketsToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.MarketsToolStripButton.Name = "MarketsToolStripButton";
-			this.MarketsToolStripButton.Size = new System.Drawing.Size(53, 22);
+			this.MarketsToolStripButton.Size = new System.Drawing.Size(85, 22);
 			this.MarketsToolStripButton.Text = "Markets";
 			this.MarketsToolStripButton.Click += new System.EventHandler(this.MarketsToolStripButton_Click);
 			// 
 			// NewMarketToolStripButton
 			// 
+			this.NewMarketToolStripButton.AutoSize = false;
 			this.NewMarketToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.NewMarketToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("NewMarketToolStripButton.Image")));
 			this.NewMarketToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.NewMarketToolStripButton.Name = "NewMarketToolStripButton";
-			this.NewMarketToolStripButton.Size = new System.Drawing.Size(75, 22);
+			this.NewMarketToolStripButton.Size = new System.Drawing.Size(85, 22);
 			this.NewMarketToolStripButton.Text = "New Market";
 			this.NewMarketToolStripButton.Click += new System.EventHandler(this.NewMarketToolStripButton_Click);
 			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+			// 
+			// CashManagementToolStripButton
+			// 
+			this.CashManagementToolStripButton.AutoSize = false;
+			this.CashManagementToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.CashManagementToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("CashManagementToolStripButton.Image")));
+			this.CashManagementToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.CashManagementToolStripButton.Name = "CashManagementToolStripButton";
+			this.CashManagementToolStripButton.Size = new System.Drawing.Size(120, 22);
+			this.CashManagementToolStripButton.Text = "Cash Management";
+			this.CashManagementToolStripButton.Click += new System.EventHandler(this.CashManagementToolStripButton_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+			// 
 			// InvoicesToolStripButton
 			// 
-			this.InvoicesToolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.InvoicesToolStripButton.AutoSize = false;
 			this.InvoicesToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
 			this.InvoicesToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("InvoicesToolStripButton.Image")));
 			this.InvoicesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.InvoicesToolStripButton.Name = "InvoicesToolStripButton";
-			this.InvoicesToolStripButton.Size = new System.Drawing.Size(54, 22);
+			this.InvoicesToolStripButton.Size = new System.Drawing.Size(85, 22);
 			this.InvoicesToolStripButton.Text = "Invoices";
 			this.InvoicesToolStripButton.Click += new System.EventHandler(this.InvoicesToolStripButton_Click);
+			// 
+			// NewInvoiceToolStripButton
+			// 
+			this.NewInvoiceToolStripButton.AutoSize = false;
+			this.NewInvoiceToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.NewInvoiceToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("NewInvoiceToolStripButton.Image")));
+			this.NewInvoiceToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.NewInvoiceToolStripButton.Name = "NewInvoiceToolStripButton";
+			this.NewInvoiceToolStripButton.Size = new System.Drawing.Size(85, 22);
+			this.NewInvoiceToolStripButton.Text = "New Invoice";
+			this.NewInvoiceToolStripButton.Click += new System.EventHandler(this.NewInvoiceToolStripButton_Click);
 			// 
 			// OMG_MainForm
 			// 
@@ -286,6 +336,11 @@
 		private System.Windows.Forms.ToolStripButton NewMarketToolStripButton;
 		private System.Windows.Forms.ToolStripButton InvoicesToolStripButton;
 		private System.Windows.Forms.ToolStripMenuItem newMarketToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+		private System.Windows.Forms.ToolStripButton NewInvoiceToolStripButton;
+		private System.Windows.Forms.ToolStripButton CashManagementToolStripButton;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
 	}
 }
 

@@ -25,13 +25,6 @@ namespace OsmingtonMillGarlic
 			{
 				e.Cancel = true;
 			}
-			/*
-			if (e.CloseReason == CloseReason.UserClosing)
-			{
-				this.Hide();
-				e.Cancel = true;
-			}
-			*/
 		}
 
 		private void MarketsForm_Load(object sender, EventArgs e)
@@ -58,8 +51,8 @@ namespace OsmingtonMillGarlic
 		}
 
 		private void MarketssDataGridViewWithPaste_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-		{
-			int marketID = DatabaseAccess.GetInt(MarketsDataGridViewWithPaste.CurrentRow.Cells["IDColumn"].Value);
+		{			
+			int marketID = DatabaseAccess.GetInt(MarketsDataGridViewWithPaste.Rows[e.RowIndex].Cells["IDColumn"].Value);
 			
 			MarketAttendedForm marketForm = new MarketAttendedForm(marketID);
 			marketForm.MdiParent = this.MdiParent;

@@ -41,12 +41,18 @@
 			this.dataColumn4 = new System.Data.DataColumn();
 			this.dataColumn5 = new System.Data.DataColumn();
 			this.dataColumn6 = new System.Data.DataColumn();
+			this.dataColumn7 = new System.Data.DataColumn();
+			this.dataColumn8 = new System.Data.DataColumn();
 			this.SaveButton = new System.Windows.Forms.Button();
 			this.ProductsDataGridViewWithPaste = new OsmingtonMillGarlic.Controls.DataGridViewWithPaste();
+			this.dataColumn9 = new System.Data.DataColumn();
 			this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.wholesalePriceDataGridViewTextBoxColumn = new OsmingtonMillGarlic.Controls.NumericDataGridViewColumn();
 			this.marketPriceDataGridViewTextBoxColumn = new OsmingtonMillGarlic.Controls.NumericDataGridViewColumn();
+			this.Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.Units = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.PerUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.DisplayOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.ProductsDataSet)).BeginInit();
@@ -68,7 +74,10 @@
             this.dataColumn3,
             this.dataColumn4,
             this.dataColumn5,
-            this.dataColumn6});
+            this.dataColumn6,
+            this.dataColumn7,
+            this.dataColumn8,
+            this.dataColumn9});
 			this.ProductsDataTable.TableName = "Products";
 			// 
 			// dataColumn1
@@ -100,6 +109,14 @@
 			// 
 			this.dataColumn6.ColumnName = "DisplayOrder";
 			this.dataColumn6.DataType = typeof(int);
+			// 
+			// dataColumn7
+			// 
+			this.dataColumn7.ColumnName = "Unit";
+			// 
+			// dataColumn8
+			// 
+			this.dataColumn8.ColumnName = "Units";
 			// 
 			// SaveButton
 			// 
@@ -134,6 +151,9 @@
             this.descriptionDataGridViewTextBoxColumn,
             this.wholesalePriceDataGridViewTextBoxColumn,
             this.marketPriceDataGridViewTextBoxColumn,
+            this.Unit,
+            this.Units,
+            this.PerUnit,
             this.iDDataGridViewTextBoxColumn,
             this.DisplayOrder});
 			this.ProductsDataGridViewWithPaste.DataMember = "Products";
@@ -142,6 +162,10 @@
 			this.ProductsDataGridViewWithPaste.Name = "ProductsDataGridViewWithPaste";
 			this.ProductsDataGridViewWithPaste.Size = new System.Drawing.Size(580, 290);
 			this.ProductsDataGridViewWithPaste.TabIndex = 0;
+			// 
+			// dataColumn9
+			// 
+			this.dataColumn9.ColumnName = "PerUnit";
 			// 
 			// Column1
 			// 
@@ -184,6 +208,27 @@
 			this.marketPriceDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			this.marketPriceDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
 			this.marketPriceDataGridViewTextBoxColumn.Width = 80;
+			// 
+			// Unit
+			// 
+			this.Unit.DataPropertyName = "Unit";
+			this.Unit.HeaderText = "Unit";
+			this.Unit.Name = "Unit";
+			this.Unit.Width = 60;
+			// 
+			// Units
+			// 
+			this.Units.DataPropertyName = "Units";
+			this.Units.HeaderText = "Units";
+			this.Units.Name = "Units";
+			this.Units.Width = 60;
+			// 
+			// PerUnit
+			// 
+			this.PerUnit.DataPropertyName = "PerUnit";
+			this.PerUnit.HeaderText = "Per Unit Text";
+			this.PerUnit.Name = "PerUnit";
+			this.PerUnit.Width = 80;
 			// 
 			// iDDataGridViewTextBoxColumn
 			// 
@@ -235,10 +280,16 @@
 		private System.Windows.Forms.Button SaveButton;
 		private System.Data.DataColumn dataColumn5;
 		private System.Data.DataColumn dataColumn6;
+		private System.Data.DataColumn dataColumn7;
+		private System.Data.DataColumn dataColumn8;
+		private System.Data.DataColumn dataColumn9;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
 		private Controls.NumericDataGridViewColumn wholesalePriceDataGridViewTextBoxColumn;
 		private Controls.NumericDataGridViewColumn marketPriceDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Unit;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Units;
+		private System.Windows.Forms.DataGridViewTextBoxColumn PerUnit;
 		private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn DisplayOrder;
 	}

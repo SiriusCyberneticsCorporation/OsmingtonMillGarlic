@@ -30,6 +30,30 @@ namespace OsmingtonMillGarlic
 			FetchData();
 		}
 
+		private void CashFloatNumericTextBox_NumberEntered(Controls.NumericTextBox source)
+		{
+			if (!m_updatingData)
+			{
+				m_updatingData = true;
+
+				CalculateTakings();
+
+				m_updatingData = false;
+			}
+		}
+
+		private void MarketTakingsDataGridViewWithPaste_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+		{
+			if (!m_updatingData && e.RowIndex >= 0 && e.RowIndex < ProductsDataGridViewWithPaste.Rows.Count)
+			{
+				m_updatingData = true;
+
+				CalculateTakings();
+
+				m_updatingData = false;
+			}
+		}
+
 		private void ProductsDataGridViewWithPaste_CellValueChanged(object sender, DataGridViewCellEventArgs e)
 		{
 			if (!m_updatingData && e.RowIndex >= 0 && e.RowIndex < ProductsDataGridViewWithPaste.Rows.Count)
@@ -124,11 +148,27 @@ namespace OsmingtonMillGarlic
 		private void CalculateTakings()
 		{
 			if (MarketAttendedDataSet.Tables["Markets"] != null && MarketAttendedDataSet.Tables["Markets"].Rows.Count > 0)
-			{
-				
+			{				
 				decimal takings = 0;
 				decimal costs = StallCostsNumericTextBox.DecimalValue;
-				decimal cash = CashAfterMarketNumericTextBox.DecimalValue;
+				decimal cash = -(CashFloatNumericTextBox.DecimalValue);
+
+				if (MarketTakingsDataGridViewWithPaste.Rows.Count > 0)
+				{
+					DataGridViewRow cashRow = MarketTakingsDataGridViewWithPaste.Rows[0];
+
+					cash += 100 * DatabaseAccess.GetInt(cashRow.Cells["HundredDollarNotesColumn"].Value);
+					cash += 50 * DatabaseAccess.GetInt(cashRow.Cells["FiftyDollarNotesColumn"].Value);
+					cash += 20 * DatabaseAccess.GetInt(cashRow.Cells["TwentyDollarNotesColumn"].Value);
+					cash += 10 * DatabaseAccess.GetInt(cashRow.Cells["TenDollarNotesColumn"].Value);
+					cash += 5 * DatabaseAccess.GetInt(cashRow.Cells["FiveDollarNotesColumn"].Value);
+					cash += 2 * DatabaseAccess.GetInt(cashRow.Cells["TwoDollarCoinsColumn"].Value);
+					cash += 1 * DatabaseAccess.GetInt(cashRow.Cells["OneDollarCoinsColumn"].Value);
+					cash += 0.50M * DatabaseAccess.GetInt(cashRow.Cells["FiftyCentCoinsColumn"].Value);
+					cash += 0.20M * DatabaseAccess.GetInt(cashRow.Cells["TwentyCentCoinsColumn"].Value);
+					cash += 0.10M * DatabaseAccess.GetInt(cashRow.Cells["TenCentCoinsColumn"].Value);
+					cash += 0.05M * DatabaseAccess.GetInt(cashRow.Cells["FiveCentCoinsColumn"].Value);
+				}
 
 				foreach (DataGridViewRow row in ProductsDataGridViewWithPaste.Rows)
 				{
@@ -241,6 +281,14 @@ namespace OsmingtonMillGarlic
 					MarketAttendedDataSet.Tables["Markets"].Merge(marketsDataTable);
 				}
 
+				string marketTakingsSql = "SELECT * FROM MarketTakings WHERE MarketID = " + DatabaseAccess.FormatNumber(m_marketID);
+
+				DataTable marketTakingsDataTable = m_databaseAccess.ExecuteSelect(marketTakingsSql);
+				if (marketTakingsDataTable != null && marketTakingsDataTable.Rows.Count > 0)
+				{
+					MarketAttendedDataSet.Tables["MarketTakings"].Merge(marketTakingsDataTable);
+				}
+
 				string marketProductsSql = "SELECT * FROM MarketProducts WHERE MarketID = " + DatabaseAccess.FormatNumber(m_marketID);
 
 				DataTable marketProductsDataTable = m_databaseAccess.ExecuteSelect(marketProductsSql);
@@ -262,11 +310,35 @@ namespace OsmingtonMillGarlic
 			}
 			else
 			{
+				decimal floatAmount = 0;
+				string nextMarketFloatSql = "SELECT * FROM NextMarketFloat LIMIT 1";
+				DataTable nextMarketFloatDataTable = m_databaseAccess.ExecuteSelect(nextMarketFloatSql);
+				if (nextMarketFloatDataTable != null && nextMarketFloatDataTable.Rows.Count > 0)
+				{
+					DataRow sourceRow = nextMarketFloatDataTable.Rows[0];
+
+					floatAmount += DatabaseAccess.GetInt(sourceRow["HundredDollarNotes"]) * 100;
+					floatAmount += DatabaseAccess.GetInt(sourceRow["FiftyDollarNotes"]) * 50;
+					floatAmount += DatabaseAccess.GetInt(sourceRow["TwentyDollarNotes"]) * 20;
+					floatAmount += DatabaseAccess.GetInt(sourceRow["TenDollarNotes"]) * 10;
+					floatAmount += DatabaseAccess.GetInt(sourceRow["FiveDollarNotes"]) * 5;
+					floatAmount += DatabaseAccess.GetInt(sourceRow["TwoDollarCoins"]) * 2;
+					floatAmount += DatabaseAccess.GetInt(sourceRow["OneDollarCoins"]) * 1;
+					floatAmount += DatabaseAccess.GetInt(sourceRow["FiftyCentCoins"]) * 0.50M;
+					floatAmount += DatabaseAccess.GetInt(sourceRow["TwentyCentCoins"]) * 0.20M;
+					floatAmount += DatabaseAccess.GetInt(sourceRow["TenCentCoins"]) * 0.10M;
+					floatAmount += DatabaseAccess.GetInt(sourceRow["FiveCentCoins"]) * 0.05M;
+				}
+
 				DataRow newMarketRow = MarketAttendedDataSet.Tables["Markets"].NewRow();
 				newMarketRow["MarketDate"] = DateTime.Today;
 				newMarketRow["MarketLocation"] = "Margaret River";
 				newMarketRow["StallCosts"] = 25;
+				newMarketRow["CashFloat"] = floatAmount;
 				MarketAttendedDataSet.Tables["Markets"].Rows.Add(newMarketRow);
+
+				DataRow newMarketTakingsRow = MarketAttendedDataSet.Tables["MarketTakings"].NewRow();
+				MarketAttendedDataSet.Tables["MarketTakings"].Rows.Add(newMarketTakingsRow);
 
 				foreach (DataRow row in MarketAttendedDataSet.Tables["Products"].Rows)
 				{
@@ -308,7 +380,24 @@ namespace OsmingtonMillGarlic
 					m_marketID = DatabaseAccess.GetInt(id);
 				}
 
-				if(successful)
+				if (successful)
+				{
+					DataTable marketTakingsDataTable = changes.Tables["MarketTakings"];
+
+					if (marketTakingsDataTable.Rows.Count > 0)
+					{
+						if (newMarket)
+						{
+							foreach (DataRow row in marketTakingsDataTable.Rows)
+							{
+								row["MarketID"] = m_marketID;
+							}
+						}
+						successful = m_databaseAccess.SaveSimpleTableWithID(marketTakingsDataTable, "MarketTakings");
+					}
+				}
+
+				if (successful)
 				{
 					DataTable marketProductsDataTable = changes.Tables["MarketProducts"];
 
@@ -316,7 +405,7 @@ namespace OsmingtonMillGarlic
 					{
 						if (newMarket)
 						{
-							foreach(DataRow row in marketProductsDataTable.Rows)
+							foreach (DataRow row in marketProductsDataTable.Rows)
 							{
 								row["MarketID"] = m_marketID;
 							}

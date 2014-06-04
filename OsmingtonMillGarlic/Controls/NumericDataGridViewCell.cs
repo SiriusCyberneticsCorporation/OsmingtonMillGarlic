@@ -55,7 +55,7 @@ namespace OsmingtonMillGarlic.Controls
 			get 
 			{ 
 				NumericEditingControl iNumericEditingControl = DataGridView.EditingControl as NumericEditingControl;
-				if (iNumericEditingControl.AllowDecimal)
+				if (iNumericEditingControl != null && iNumericEditingControl.AllowDecimal)
 				{
 					return typeof(Decimal);
 				}

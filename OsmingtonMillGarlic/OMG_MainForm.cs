@@ -21,7 +21,10 @@ namespace OsmingtonMillGarlic
 		{
 			foreach(Form childForm in this.MdiChildren)
 			{
-				((IChildForm)childForm).RefreshDisplay();
+				if (childForm != ActiveMdiChild)
+				{
+					((IChildForm)childForm).RefreshDisplay();
+				}
 			}
 		}
 
@@ -167,6 +170,20 @@ namespace OsmingtonMillGarlic
 			}
 		}
 
+		private void CashManagementToolStripButton_Click(object sender, EventArgs e)
+		{
+			Form existingInstance = GetExistingInstance(typeof(CashManagementForm));
+
+			if (existingInstance != null)
+			{
+				ShowChildForm(existingInstance);
+			}
+			else
+			{
+				ShowChildForm(new CashManagementForm());
+			}
+		}
+
 		private void ShowInvoicesForm()
 		{
 			Form existingInstance = GetExistingInstance(typeof(InvoicesForm));
@@ -192,6 +209,20 @@ namespace OsmingtonMillGarlic
 			else
 			{
 				ShowChildForm(new MarketAttendedForm(-1));
+			}
+		}
+
+		private void NewInvoiceToolStripButton_Click(object sender, EventArgs e)
+		{
+			Form existingInstance = GetExistingInstance(typeof(AddEditInvoiceForm));
+
+			if (existingInstance != null && ((AddEditInvoiceForm)existingInstance).IsNewInvoice)
+			{
+				ShowChildForm(existingInstance);
+			}
+			else
+			{
+				ShowChildForm(new AddEditInvoiceForm(-1));
 			}
 		}
 	}

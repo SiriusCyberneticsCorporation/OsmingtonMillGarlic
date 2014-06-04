@@ -60,6 +60,18 @@
     <Compile Include="AddEditInvoiceForm.Designer.cs">
       <DependentUpon>AddEditInvoiceForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AddEditProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddEditProductForm.Designer.cs">
+      <DependentUpon>AddEditProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CashManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CashManagementForm.Designer.cs">
+      <DependentUpon>CashManagementForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CalendarCell.cs" />
     <Compile Include="Controls\CalendarColumn.cs" />
     <Compile Include="Controls\CalendarEditingControl.cs">
@@ -84,6 +96,12 @@
     </Compile>
     <Compile Include="DatabaseAccess.cs" />
     <Compile Include="IChildForm.cs" />
+    <Compile Include="InvoiceItemUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InvoiceItemUserControl.Designer.cs">
+      <DependentUpon>InvoiceItemUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="InvoicesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +136,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AddEditInvoiceForm.resx">
       <DependentUpon>AddEditInvoiceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddEditProductForm.resx">
+      <DependentUpon>AddEditProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CashManagementForm.resx">
+      <DependentUpon>CashManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InvoiceItemUserControl.resx">
+      <DependentUpon>InvoiceItemUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InvoicesForm.resx">
       <DependentUpon>InvoicesForm.cs</DependentUpon>

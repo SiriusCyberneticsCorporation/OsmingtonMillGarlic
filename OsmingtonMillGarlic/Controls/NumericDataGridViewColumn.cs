@@ -16,7 +16,7 @@ namespace OsmingtonMillGarlic.Controls
 
 		[Description("By default the NumericDataGridViewColumn accepts integer values. Changing this setting to 'True' will allow decimal values to be entered."),
 		Category("Behavior"),
-		Browsable(false)]
+		Browsable(true)]
 		public bool AllowDecimal { get; set; }
 
 		public NumericDataGridViewColumn()
