@@ -35,7 +35,7 @@ namespace OsmingtonMillGarlic
 		public void RefreshDisplay()
 		{
 			string invoiceTypesSql = "SELECT * FROM InvoiceTypes";
-			string invoicesSql = "SELECT ID, InvoiceType, InvoiceNumber, InvoiceDate, InvoiceTo, Reference, Total FROM Invoices";
+			string invoicesSql = "SELECT ID, InvoiceType, InvoiceNumber, InvoiceDate, InvoiceTo, Reference, InvoiceTotal FROM Invoices";
 
 			InvoicesDataSet.Tables["Invoices"].Clear();
 			InvoicesDataSet.Tables["InvoiceTypes"].Clear();

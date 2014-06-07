@@ -39,21 +39,21 @@
 			this.dataColumn5 = new System.Data.DataColumn();
 			this.dataColumn6 = new System.Data.DataColumn();
 			this.dataColumn7 = new System.Data.DataColumn();
-			this.InvoicesDataGridViewWithPaste = new OsmingtonMillGarlic.Controls.DataGridViewWithPaste();
 			this.InvoiceTypesDataTable = new System.Data.DataTable();
 			this.dataColumn8 = new System.Data.DataColumn();
 			this.dataColumn9 = new System.Data.DataColumn();
+			this.InvoicesDataGridViewWithPaste = new OsmingtonMillGarlic.Controls.DataGridViewWithPaste();
 			this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.invoiceTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.invoiceNumberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.invoiceDateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.InvoiceTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.referenceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.totalDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.InvoiceTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataSet)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataTable)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataGridViewWithPaste)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoiceTypesDataTable)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataGridViewWithPaste)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// InvoicesDataSet
@@ -105,8 +105,24 @@
 			// 
 			// dataColumn7
 			// 
-			this.dataColumn7.ColumnName = "Total";
+			this.dataColumn7.ColumnName = "InvoiceTotal";
 			this.dataColumn7.DataType = typeof(decimal);
+			// 
+			// InvoiceTypesDataTable
+			// 
+			this.InvoiceTypesDataTable.Columns.AddRange(new System.Data.DataColumn[] {
+            this.dataColumn8,
+            this.dataColumn9});
+			this.InvoiceTypesDataTable.TableName = "InvoiceTypes";
+			// 
+			// dataColumn8
+			// 
+			this.dataColumn8.ColumnName = "ID";
+			this.dataColumn8.DataType = typeof(int);
+			// 
+			// dataColumn9
+			// 
+			this.dataColumn9.ColumnName = "Description";
 			// 
 			// InvoicesDataGridViewWithPaste
 			// 
@@ -125,7 +141,7 @@
             this.invoiceDateDataGridViewTextBoxColumn,
             this.InvoiceTo,
             this.referenceDataGridViewTextBoxColumn,
-            this.totalDataGridViewTextBoxColumn});
+            this.InvoiceTotal});
 			this.InvoicesDataGridViewWithPaste.DataMember = "Invoices";
 			this.InvoicesDataGridViewWithPaste.DataSource = this.InvoicesDataSet;
 			this.InvoicesDataGridViewWithPaste.Location = new System.Drawing.Point(12, 12);
@@ -135,22 +151,6 @@
 			this.InvoicesDataGridViewWithPaste.Size = new System.Drawing.Size(575, 378);
 			this.InvoicesDataGridViewWithPaste.TabIndex = 0;
 			this.InvoicesDataGridViewWithPaste.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.InvoicesDataGridViewWithPaste_CellMouseDoubleClick);
-			// 
-			// InvoiceTypesDataTable
-			// 
-			this.InvoiceTypesDataTable.Columns.AddRange(new System.Data.DataColumn[] {
-            this.dataColumn8,
-            this.dataColumn9});
-			this.InvoiceTypesDataTable.TableName = "InvoiceTypes";
-			// 
-			// dataColumn8
-			// 
-			this.dataColumn8.ColumnName = "ID";
-			this.dataColumn8.DataType = typeof(int);
-			// 
-			// dataColumn9
-			// 
-			this.dataColumn9.ColumnName = "Description";
 			// 
 			// IDColumn
 			// 
@@ -207,16 +207,15 @@
 			this.referenceDataGridViewTextBoxColumn.Name = "referenceDataGridViewTextBoxColumn";
 			this.referenceDataGridViewTextBoxColumn.ReadOnly = true;
 			// 
-			// totalDataGridViewTextBoxColumn
+			// InvoiceTotal
 			// 
-			this.totalDataGridViewTextBoxColumn.DataPropertyName = "Total";
+			this.InvoiceTotal.DataPropertyName = "InvoiceTotal";
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
 			dataGridViewCellStyle2.Format = "C2";
-			this.totalDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
-			this.totalDataGridViewTextBoxColumn.HeaderText = "Total";
-			this.totalDataGridViewTextBoxColumn.Name = "totalDataGridViewTextBoxColumn";
-			this.totalDataGridViewTextBoxColumn.ReadOnly = true;
-			this.totalDataGridViewTextBoxColumn.Width = 50;
+			this.InvoiceTotal.DefaultCellStyle = dataGridViewCellStyle2;
+			this.InvoiceTotal.HeaderText = "Invoice Total";
+			this.InvoiceTotal.Name = "InvoiceTotal";
+			this.InvoiceTotal.ReadOnly = true;
 			// 
 			// InvoicesForm
 			// 
@@ -232,8 +231,8 @@
 			this.Load += new System.EventHandler(this.InvoicesForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataSet)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataTable)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataGridViewWithPaste)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoiceTypesDataTable)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataGridViewWithPaste)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -259,6 +258,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn invoiceDateDataGridViewTextBoxColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn InvoiceTo;
 		private System.Windows.Forms.DataGridViewTextBoxColumn referenceDataGridViewTextBoxColumn;
-		private System.Windows.Forms.DataGridViewTextBoxColumn totalDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn InvoiceTotal;
 	}
 }

@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using Word = Microsoft.Office.Interop.Word;
+using Microsoft.Office.Core;
+
 namespace OsmingtonMillGarlic
 {
 	public partial class AddEditInvoiceForm : Form, IChildForm
@@ -17,10 +20,21 @@ namespace OsmingtonMillGarlic
 		private int m_invoiceID = -1;
 		private bool m_updatingData = false;
 		private DatabaseAccess m_databaseAccess = new DatabaseAccess();
+		private List<InvoiceItemUserControl> m_invoiceItems = new List<InvoiceItemUserControl>();
 
 		public AddEditInvoiceForm(int invoiceID)
 		{
 			InitializeComponent();
+
+			m_invoiceItems.Add(InvoiceItem1);
+			m_invoiceItems.Add(InvoiceItem2);
+			m_invoiceItems.Add(InvoiceItem3);
+			m_invoiceItems.Add(InvoiceItem4);
+			m_invoiceItems.Add(InvoiceItem5);
+			m_invoiceItems.Add(InvoiceItem6);
+			m_invoiceItems.Add(InvoiceItem7);
+			m_invoiceItems.Add(InvoiceItem8);
+			m_invoiceItems.Add(InvoiceItem9);
 
 			m_invoiceID = invoiceID;
 		}
@@ -139,19 +153,12 @@ namespace OsmingtonMillGarlic
 		{
 			m_updatingData = true;
 
-			string productsSql = "SELECT ID, Active, Description, WholesalePrice FROM Products ORDER BY DisplayOrder";
-
-			InvoicesDataSet.Tables["Products"].Clear();
 			InvoicesDataSet.Tables["Invoices"].Clear();
 			InvoicesDataSet.Tables["InvoiceItems"].Clear();
-
-			DataTable productsDataTable = m_databaseAccess.ExecuteSelect(productsSql);
-			if (productsDataTable != null && productsDataTable.Rows.Count > 0)
+			foreach (InvoiceItemUserControl invoiceItem in m_invoiceItems)
 			{
-				InvoicesDataSet.Tables["Products"].Merge(productsDataTable);
+				invoiceItem.Clear();
 			}
-			// Tell the DataSet to accept all changes so that subsequent changes made by the user will show up.
-			InvoicesDataSet.AcceptChanges();
 
 			if (m_invoiceID > 0)
 			{
@@ -169,6 +176,16 @@ namespace OsmingtonMillGarlic
 				if (invoiceItemsDataTable != null && invoiceItemsDataTable.Rows.Count > 0)
 				{
 					InvoicesDataSet.Tables["InvoiceItems"].Merge(invoiceItemsDataTable);
+
+					int rowNumber = 0;
+					foreach(DataRow row in invoiceItemsDataTable.Rows)
+					{
+						if (rowNumber < m_invoiceItems.Count)
+						{
+							m_invoiceItems[rowNumber].Row = row;
+						}
+						rowNumber++;
+					}
 				}
 
 				// Tell the DataSet to accept all changes so that subsequent changes made by the user will show up.
@@ -244,7 +261,31 @@ namespace OsmingtonMillGarlic
 			return successful;
 		}
 
-		private void InvoiceItem_ItemAdded(DataRow row)
+		private void CalculateInvoiceTotal()
+		{
+			decimal subTotal = 0;
+			foreach(DataRow row in InvoicesDataSet.Tables["InvoiceItems"].Rows)
+			{
+				subTotal += DatabaseAccess.GetDecimal(row["Amount"]);
+			}
+			InvoicesDataSet.Tables["Invoices"].Rows[0]["SubTotal"] = subTotal;
+			
+			if(DatabaseAccess.GetDecimal(InvoicesDataSet.Tables["Invoices"].Rows[0]["GST"]) != 0)
+			{
+				InvoicesDataSet.Tables["Invoices"].Rows[0]["GST"] = subTotal * 0.1M;
+				InvoicesDataSet.Tables["Invoices"].Rows[0]["InvoiceTotal"] = subTotal + subTotal * 0.1M;
+			}
+			else
+			{
+				InvoicesDataSet.Tables["Invoices"].Rows[0]["InvoiceTotal"] = subTotal;
+			}
+
+			SubTotalNumericTextBox.Update();
+			GstNumericTextBox.Update();
+			InvoiceTotalNumericTextBox.Update();
+		}
+
+		private void InvoiceItem_ItemAdded(InvoiceItemUserControl sender, DataRow row)
 		{
 			DataRow newRow = InvoicesDataSet.Tables["InvoiceItems"].NewRow();
 
@@ -258,16 +299,171 @@ namespace OsmingtonMillGarlic
 			newRow["Amount"] = row["Amount"];
 
 			InvoicesDataSet.Tables["InvoiceItems"].Rows.Add(newRow);
+			
+			sender.Row = newRow;
+
+			CalculateInvoiceTotal();
 		}
 
-		private void InvoiceItem_ItemAltered(DataRow row)
+		private void InvoiceItem_ItemAltered(InvoiceItemUserControl sender, DataRow row)
 		{
+			DataRow existingRow = InvoicesDataSet.Tables["InvoiceItems"].Rows.Find(DatabaseAccess.GetInt(row["ID"]));
 
+			if(existingRow != null)
+			{
+				existingRow["InvoiceID"] = m_invoiceID;
+				existingRow["ProductID"] = row["ProductID"];
+				existingRow["Description"] = row["Description"];
+				existingRow["Quantity"] = row["Quantity"];
+				existingRow["UnitsText"] = row["UnitsText"];
+				existingRow["UnitPrice"] = row["UnitPrice"];
+				existingRow["PerUnitText"] = row["PerUnitText"];
+				existingRow["Amount"] = row["Amount"];
+			}
+			else 
+			{
+				DataRow newRow = InvoicesDataSet.Tables["InvoiceItems"].NewRow();
+
+				newRow["InvoiceID"] = m_invoiceID;
+				newRow["ProductID"] = row["ProductID"];
+				newRow["Description"] = row["Description"];
+				newRow["Quantity"] = row["Quantity"];
+				newRow["UnitsText"] = row["UnitsText"];
+				newRow["UnitPrice"] = row["UnitPrice"];
+				newRow["PerUnitText"] = row["PerUnitText"];
+				newRow["Amount"] = row["Amount"];
+
+				InvoicesDataSet.Tables["InvoiceItems"].Rows.Add(newRow);
+
+				sender.Row = newRow;
+			}
+
+			CalculateInvoiceTotal();
 		}
 
-		private void InvoiceItem_ItemDeleted(DataRow row)
+		private void InvoiceItem_ItemDeleted(InvoiceItemUserControl sender, DataRow row)
 		{
+			DataRow existingRow = InvoicesDataSet.Tables["InvoiceItems"].Rows.Find(DatabaseAccess.GetInt(row["ID"]));
+
+			if (existingRow != null)
+			{
+				// Get the index of the selected row in the source DataSet.
+				int index = InvoicesDataSet.Tables["InvoiceItems"].Rows.IndexOf(existingRow);
+				// Mark the row as deleted.
+				InvoicesDataSet.Tables["InvoiceItems"].Rows[index].Delete();
+
+				sender.Clear();
+			}
+
+			CalculateInvoiceTotal();
+		}
+
+		private void CalculateGstButton_Click(object sender, EventArgs e)
+		{
+			if(InvoicesDataSet.Tables["Invoices"].Rows.Count > 0)
+			{
+				decimal subTotal = DatabaseAccess.GetDecimal(InvoicesDataSet.Tables["Invoices"].Rows[0]["SubTotal"]);
+
+				InvoicesDataSet.Tables["Invoices"].Rows[0]["GST"] = subTotal * 0.1M;
+				InvoicesDataSet.Tables["Invoices"].Rows[0]["InvoiceTotal"] = subTotal + subTotal * 0.1M;
+			}
+		}
+
+		private void LockInvoiceButton_Click(object sender, EventArgs e)
+		{
+			if (InvoicesDataSet.Tables["Invoices"].Rows.Count > 0)
+			{
+				if (MessageBox.Show("Locking the Invoice will make further changes impossible.\r\n" +
+								   "This operation cannot be undone.\r\n" +
+								   "Are you sure you want to lock the Invoice?",
+								   "Confirm Lock",
+								   MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+				{
+					InvoicesDataSet.Tables["Invoices"].Rows[0]["Locked"] = true;
+				}
+			}
+		}
+
+		private static object MISSING = System.Reflection.Missing.Value;
+		private static object ENDOFDOC = "\\endofdoc"; /* \endofdoc is a predefined bookmark */
+		private Word.Application m_wordApplication = new Word.Application();
+		private Word.Document m_currentDocument = null;
+		private Word.Paragraph m_currentParagraph = null;
+		private Word.Table m_currentTable = null;
+
+		private void CreateFileButton_Click(object sender, EventArgs e)
+		{
+			object template = MISSING;
+
+			// Hide Word while creating the document to speed things up.
+			m_wordApplication.Visible = false;
+
+			// Create a new Document, by calling the Add function in the Documents collection
+			m_currentDocument = m_wordApplication.Documents.Add(ref template, ref MISSING, ref MISSING, ref MISSING);
+			m_currentDocument.PageSetup.Orientation = Word.WdOrientation.wdOrientLandscape;
+			m_currentDocument.PageSetup.TopMargin = m_wordApplication.CentimetersToPoints(1.5f);
+			m_currentDocument.PageSetup.BottomMargin = m_wordApplication.CentimetersToPoints(1.5f);
+			m_currentDocument.PageSetup.LeftMargin = m_wordApplication.CentimetersToPoints(2.0f);
+			m_currentDocument.PageSetup.RightMargin = m_wordApplication.CentimetersToPoints(2.0f);
+
+			// Setting the focus on the page header
+			m_currentDocument.ActiveWindow.ActivePane.View.SeekView = Word.WdSeekView.wdSeekCurrentPageHeader;
+
+			// Inserting the page numbers centrally aligned in the page header
+			m_currentDocument.ActiveWindow.Selection.Paragraphs.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+
+			Word.Range currentRange = m_currentDocument.ActiveWindow.Selection.Range;
+			
+			// Insert first Header Line.
+			//m_currentParagraph = currentRange.Paragraphs.Add(ref MISSING);
+			//m_currentParagraph.Range.Font.Size = 38;
+
+
+			// Insert first Header Line.
+			m_currentParagraph = currentRange.Paragraphs.Add(ref MISSING);
+			m_currentParagraph.Range.Font.Size = 38;
+			m_currentParagraph.Range.InsertParagraphAfter();
+
+			currentRange = currentRange.Sections.Last.Range;
+
+			m_currentTable = m_currentDocument.Tables.Add(currentRange, 1, 4, ref MISSING, ref MISSING);
+			//m_currentTable.Range.set_Style(m_currentDocument.Styles[GMSHelper.GetEnumDescription(ReportTextStyle.TableText)]);
+
+			// Set up cell padding for the entire table.
+			m_currentTable.LeftPadding = m_wordApplication.CentimetersToPoints(0.1f);
+			m_currentTable.RightPadding = m_wordApplication.CentimetersToPoints(0.1f);
+			m_currentTable.TopPadding = m_wordApplication.CentimetersToPoints(0.05f);
+			m_currentTable.BottomPadding = m_wordApplication.CentimetersToPoints(0.05f);
+
+			m_currentTable.Columns[1].Width = m_wordApplication.CentimetersToPoints(8.0f);
+			m_currentTable.Columns[2].Width = m_wordApplication.CentimetersToPoints(9.8f);
+			m_currentTable.Columns[3].Width = m_wordApplication.CentimetersToPoints(6.2f);
+			m_currentTable.Columns[4].Width = m_wordApplication.CentimetersToPoints(1.7f);
+
+			m_currentTable.Cell(1, 1).Range.Text = "Date";
+			m_currentTable.Cell(1, 2).Range.Text = "TAX INVOICE";
+			m_currentTable.Cell(1, 3).Range.Text = "INVOICE NUMBER";
+			m_currentTable.Cell(1, 4).Range.Text = "nnn";
+
+			m_wordApplication.Selection.HeaderFooter.Shapes.AddTextEffect(MsoPresetTextEffect.msoTextEffect9,
+									   "Jeanette & Richard Smith",
+									   "Boboni MT Black",
+									   36,
+									   MsoTriState.msoFalse,
+									   MsoTriState.msoFalse,
+									   0, 0, MISSING);
+
+
+			// Make word visible to show the results.
+			m_wordApplication.Visible = true;
+			m_wordApplication.Activate();
 
 		}
+
+		private Word.Range GetLastRangeInDocument()
+		{
+			return m_currentDocument.Bookmarks.get_Item(ref ENDOFDOC).Range;
+		}
+
 	}
 }

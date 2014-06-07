@@ -45,6 +45,7 @@
 			this.dataColumn22 = new System.Data.DataColumn();
 			this.dataColumn1 = new System.Data.DataColumn();
 			this.dataColumn2 = new System.Data.DataColumn();
+			this.dataColumn19 = new System.Data.DataColumn();
 			this.InvoiceItemsDataTable = new System.Data.DataTable();
 			this.dataColumn10 = new System.Data.DataColumn();
 			this.dataColumn11 = new System.Data.DataColumn();
@@ -55,11 +56,6 @@
 			this.dataColumn15 = new System.Data.DataColumn();
 			this.dataColumn17 = new System.Data.DataColumn();
 			this.dataColumn18 = new System.Data.DataColumn();
-			this.ProductsDataTable = new System.Data.DataTable();
-			this.dataColumn25 = new System.Data.DataColumn();
-			this.dataColumn26 = new System.Data.DataColumn();
-			this.dataColumn27 = new System.Data.DataColumn();
-			this.dataColumn28 = new System.Data.DataColumn();
 			this.InvoiceTypesDataTable = new System.Data.DataTable();
 			this.dataColumn3 = new System.Data.DataColumn();
 			this.dataColumn4 = new System.Data.DataColumn();
@@ -74,6 +70,14 @@
 			this.label6 = new System.Windows.Forms.Label();
 			this.SaveButton = new System.Windows.Forms.Button();
 			this.BottomPanel = new System.Windows.Forms.Panel();
+			this.numericTextBox1 = new OsmingtonMillGarlic.Controls.NumericTextBox();
+			this.InvoiceTotalNumericTextBox = new OsmingtonMillGarlic.Controls.NumericTextBox();
+			this.CalculateGstButton = new System.Windows.Forms.Button();
+			this.label8 = new System.Windows.Forms.Label();
+			this.label7 = new System.Windows.Forms.Label();
+			this.label5 = new System.Windows.Forms.Label();
+			this.GstNumericTextBox = new OsmingtonMillGarlic.Controls.NumericTextBox();
+			this.SubTotalNumericTextBox = new OsmingtonMillGarlic.Controls.NumericTextBox();
 			this.InvoiceItemsTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.InvoiceItem9 = new OsmingtonMillGarlic.InvoiceItemUserControl();
 			this.InvoiceItem8 = new OsmingtonMillGarlic.InvoiceItemUserControl();
@@ -84,14 +88,16 @@
 			this.InvoiceItem3 = new OsmingtonMillGarlic.InvoiceItemUserControl();
 			this.InvoiceItem2 = new OsmingtonMillGarlic.InvoiceItemUserControl();
 			this.InvoiceItem1 = new OsmingtonMillGarlic.InvoiceItemUserControl();
+			this.LockInvoiceButton = new System.Windows.Forms.Button();
+			this.CreateFileButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesBindingSource)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataSet)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataTable)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoiceItemsDataTable)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.ProductsDataTable)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoiceTypesDataTable)).BeginInit();
 			this.InvoiceTableLayoutPanel.SuspendLayout();
 			this.TopPanel.SuspendLayout();
+			this.BottomPanel.SuspendLayout();
 			this.InvoiceItemsTableLayoutPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -134,7 +140,6 @@
 			this.InvoicesDataSet.Tables.AddRange(new System.Data.DataTable[] {
             this.InvoicesDataTable,
             this.InvoiceItemsDataTable,
-            this.ProductsDataTable,
             this.InvoiceTypesDataTable});
 			// 
 			// InvoicesDataTable
@@ -149,11 +154,13 @@
             this.dataColumn21,
             this.dataColumn22,
             this.dataColumn1,
-            this.dataColumn2});
+            this.dataColumn2,
+            this.dataColumn19});
 			this.InvoicesDataTable.TableName = "Invoices";
 			// 
 			// dataColumn5
 			// 
+			this.dataColumn5.AutoIncrement = true;
 			this.dataColumn5.ColumnName = "ID";
 			this.dataColumn5.DataType = typeof(int);
 			// 
@@ -169,7 +176,7 @@
 			// 
 			// dataColumn8
 			// 
-			this.dataColumn8.ColumnName = "To";
+			this.dataColumn8.ColumnName = "InvoiceTo";
 			// 
 			// dataColumn9
 			// 
@@ -192,13 +199,18 @@
 			// 
 			// dataColumn1
 			// 
-			this.dataColumn1.ColumnName = "Total";
+			this.dataColumn1.ColumnName = "InvoiceTotal";
 			this.dataColumn1.DataType = typeof(decimal);
 			// 
 			// dataColumn2
 			// 
 			this.dataColumn2.ColumnName = "InvoiceType";
 			this.dataColumn2.DataType = typeof(int);
+			// 
+			// dataColumn19
+			// 
+			this.dataColumn19.ColumnName = "Locked";
+			this.dataColumn19.DataType = typeof(bool);
 			// 
 			// InvoiceItemsDataTable
 			// 
@@ -257,34 +269,6 @@
 			this.dataColumn18.ColumnName = "Amount";
 			this.dataColumn18.DataType = typeof(decimal);
 			// 
-			// ProductsDataTable
-			// 
-			this.ProductsDataTable.Columns.AddRange(new System.Data.DataColumn[] {
-            this.dataColumn25,
-            this.dataColumn26,
-            this.dataColumn27,
-            this.dataColumn28});
-			this.ProductsDataTable.TableName = "Products";
-			// 
-			// dataColumn25
-			// 
-			this.dataColumn25.ColumnName = "ID";
-			this.dataColumn25.DataType = typeof(int);
-			// 
-			// dataColumn26
-			// 
-			this.dataColumn26.ColumnName = "Description";
-			// 
-			// dataColumn27
-			// 
-			this.dataColumn27.ColumnName = "WholesalePrice";
-			this.dataColumn27.DataType = typeof(decimal);
-			// 
-			// dataColumn28
-			// 
-			this.dataColumn28.ColumnName = "Active";
-			this.dataColumn28.DataType = typeof(bool);
-			// 
 			// InvoiceTypesDataTable
 			// 
 			this.InvoiceTypesDataTable.Columns.AddRange(new System.Data.DataColumn[] {
@@ -322,7 +306,7 @@
 			// 
 			// ToTextBox
 			// 
-			this.ToTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoicesBindingSource, "To", true));
+			this.ToTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoicesBindingSource, "InvoiceTo", true));
 			this.ToTextBox.Location = new System.Drawing.Point(92, 67);
 			this.ToTextBox.Multiline = true;
 			this.ToTextBox.Name = "ToTextBox";
@@ -349,23 +333,25 @@
 			// 
 			// InvoiceTableLayoutPanel
 			// 
+			this.InvoiceTableLayoutPanel.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.InvoiceTableLayoutPanel.ColumnCount = 1;
 			this.InvoiceTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.InvoiceTableLayoutPanel.Controls.Add(this.TopPanel, 0, 0);
 			this.InvoiceTableLayoutPanel.Controls.Add(this.BottomPanel, 0, 2);
 			this.InvoiceTableLayoutPanel.Controls.Add(this.InvoiceItemsTableLayoutPanel, 0, 1);
-			this.InvoiceTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.InvoiceTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
 			this.InvoiceTableLayoutPanel.Name = "InvoiceTableLayoutPanel";
 			this.InvoiceTableLayoutPanel.RowCount = 3;
 			this.InvoiceTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 118F));
-			this.InvoiceTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.InvoiceTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-			this.InvoiceTableLayoutPanel.Size = new System.Drawing.Size(762, 653);
-			this.InvoiceTableLayoutPanel.TabIndex = 11;
+			this.InvoiceTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 390F));
+			this.InvoiceTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+			this.InvoiceTableLayoutPanel.Size = new System.Drawing.Size(762, 607);
+			this.InvoiceTableLayoutPanel.TabIndex = 0;
 			// 
 			// TopPanel
 			// 
+			this.TopPanel.Controls.Add(this.CreateFileButton);
+			this.TopPanel.Controls.Add(this.LockInvoiceButton);
 			this.TopPanel.Controls.Add(this.InvoiceTypeComboBox);
 			this.TopPanel.Controls.Add(this.label6);
 			this.TopPanel.Controls.Add(this.SaveButton);
@@ -382,7 +368,7 @@
 			this.TopPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.TopPanel.Name = "TopPanel";
 			this.TopPanel.Size = new System.Drawing.Size(762, 118);
-			this.TopPanel.TabIndex = 2;
+			this.TopPanel.TabIndex = 0;
 			// 
 			// InvoiceTypeComboBox
 			// 
@@ -418,12 +404,114 @@
 			// 
 			// BottomPanel
 			// 
+			this.BottomPanel.Controls.Add(this.numericTextBox1);
+			this.BottomPanel.Controls.Add(this.InvoiceTotalNumericTextBox);
+			this.BottomPanel.Controls.Add(this.CalculateGstButton);
+			this.BottomPanel.Controls.Add(this.label8);
+			this.BottomPanel.Controls.Add(this.label7);
+			this.BottomPanel.Controls.Add(this.label5);
+			this.BottomPanel.Controls.Add(this.GstNumericTextBox);
+			this.BottomPanel.Controls.Add(this.SubTotalNumericTextBox);
 			this.BottomPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.BottomPanel.Location = new System.Drawing.Point(12, 506);
+			this.BottomPanel.Location = new System.Drawing.Point(12, 511);
 			this.BottomPanel.Margin = new System.Windows.Forms.Padding(12, 3, 12, 12);
 			this.BottomPanel.Name = "BottomPanel";
-			this.BottomPanel.Size = new System.Drawing.Size(738, 135);
-			this.BottomPanel.TabIndex = 3;
+			this.BottomPanel.Size = new System.Drawing.Size(738, 85);
+			this.BottomPanel.TabIndex = 2;
+			// 
+			// numericTextBox1
+			// 
+			this.numericTextBox1.AllowDecimal = true;
+			this.numericTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.numericTextBox1.BackColor = System.Drawing.SystemColors.Window;
+			this.numericTextBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoicesBindingSource, "InvoiceTotal", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
+			this.numericTextBox1.Location = new System.Drawing.Point(180, 56);
+			this.numericTextBox1.Name = "numericTextBox1";
+			this.numericTextBox1.ReadOnly = true;
+			this.numericTextBox1.Size = new System.Drawing.Size(100, 20);
+			this.numericTextBox1.TabIndex = 6;
+			this.numericTextBox1.TabStop = false;
+			this.numericTextBox1.Visible = false;
+			// 
+			// InvoiceTotalNumericTextBox
+			// 
+			this.InvoiceTotalNumericTextBox.AllowDecimal = true;
+			this.InvoiceTotalNumericTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.InvoiceTotalNumericTextBox.BackColor = System.Drawing.SystemColors.Window;
+			this.InvoiceTotalNumericTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoicesBindingSource, "InvoiceTotal", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
+			this.InvoiceTotalNumericTextBox.Location = new System.Drawing.Point(582, 55);
+			this.InvoiceTotalNumericTextBox.Name = "InvoiceTotalNumericTextBox";
+			this.InvoiceTotalNumericTextBox.ReadOnly = true;
+			this.InvoiceTotalNumericTextBox.Size = new System.Drawing.Size(100, 20);
+			this.InvoiceTotalNumericTextBox.TabIndex = 2;
+			this.InvoiceTotalNumericTextBox.TabStop = false;
+			// 
+			// CalculateGstButton
+			// 
+			this.CalculateGstButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.CalculateGstButton.Location = new System.Drawing.Point(300, 27);
+			this.CalculateGstButton.Name = "CalculateGstButton";
+			this.CalculateGstButton.Size = new System.Drawing.Size(136, 23);
+			this.CalculateGstButton.TabIndex = 3;
+			this.CalculateGstButton.Text = "Calculate GST";
+			this.CalculateGstButton.UseVisualStyleBackColor = true;
+			this.CalculateGstButton.Click += new System.EventHandler(this.CalculateGstButton_Click);
+			// 
+			// label8
+			// 
+			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label8.Location = new System.Drawing.Point(444, 55);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(132, 20);
+			this.label8.TabIndex = 5;
+			this.label8.Text = "Total including GST";
+			this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// label7
+			// 
+			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label7.Location = new System.Drawing.Point(444, 29);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(132, 20);
+			this.label7.TabIndex = 4;
+			this.label7.Text = "GST";
+			this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// label5
+			// 
+			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label5.Location = new System.Drawing.Point(444, 3);
+			this.label5.Name = "label5";
+			this.label5.Size = new System.Drawing.Size(132, 20);
+			this.label5.TabIndex = 3;
+			this.label5.Text = "Sub Total";
+			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+			// 
+			// GstNumericTextBox
+			// 
+			this.GstNumericTextBox.AllowDecimal = true;
+			this.GstNumericTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.GstNumericTextBox.BackColor = System.Drawing.SystemColors.Window;
+			this.GstNumericTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoicesBindingSource, "GST", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
+			this.GstNumericTextBox.Location = new System.Drawing.Point(582, 29);
+			this.GstNumericTextBox.Name = "GstNumericTextBox";
+			this.GstNumericTextBox.ReadOnly = true;
+			this.GstNumericTextBox.Size = new System.Drawing.Size(100, 20);
+			this.GstNumericTextBox.TabIndex = 1;
+			this.GstNumericTextBox.TabStop = false;
+			// 
+			// SubTotalNumericTextBox
+			// 
+			this.SubTotalNumericTextBox.AllowDecimal = true;
+			this.SubTotalNumericTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.SubTotalNumericTextBox.BackColor = System.Drawing.SystemColors.Window;
+			this.SubTotalNumericTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoicesBindingSource, "SubTotal", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
+			this.SubTotalNumericTextBox.Location = new System.Drawing.Point(582, 3);
+			this.SubTotalNumericTextBox.Name = "SubTotalNumericTextBox";
+			this.SubTotalNumericTextBox.ReadOnly = true;
+			this.SubTotalNumericTextBox.Size = new System.Drawing.Size(100, 20);
+			this.SubTotalNumericTextBox.TabIndex = 0;
+			this.SubTotalNumericTextBox.TabStop = false;
 			// 
 			// InvoiceItemsTableLayoutPanel
 			// 
@@ -452,8 +540,8 @@
 			this.InvoiceItemsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.InvoiceItemsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.InvoiceItemsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.InvoiceItemsTableLayoutPanel.Size = new System.Drawing.Size(756, 379);
-			this.InvoiceItemsTableLayoutPanel.TabIndex = 4;
+			this.InvoiceItemsTableLayoutPanel.Size = new System.Drawing.Size(756, 384);
+			this.InvoiceItemsTableLayoutPanel.TabIndex = 1;
 			// 
 			// InvoiceItem9
 			// 
@@ -461,7 +549,7 @@
 			this.InvoiceItem9.Location = new System.Drawing.Point(10, 336);
 			this.InvoiceItem9.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
 			this.InvoiceItem9.Name = "InvoiceItem9";
-			this.InvoiceItem9.Size = new System.Drawing.Size(736, 43);
+			this.InvoiceItem9.Size = new System.Drawing.Size(736, 48);
 			this.InvoiceItem9.TabIndex = 8;
 			this.InvoiceItem9.ItemAdded += new OsmingtonMillGarlic.InvoiceItemUserControl.InvoiceItemHandler(this.InvoiceItem_ItemAdded);
 			this.InvoiceItem9.ItemAltered += new OsmingtonMillGarlic.InvoiceItemUserControl.InvoiceItemHandler(this.InvoiceItem_ItemAltered);
@@ -563,11 +651,31 @@
 			this.InvoiceItem1.ItemAltered += new OsmingtonMillGarlic.InvoiceItemUserControl.InvoiceItemHandler(this.InvoiceItem_ItemAltered);
 			this.InvoiceItem1.ItemDeleted += new OsmingtonMillGarlic.InvoiceItemUserControl.InvoiceItemHandler(this.InvoiceItem_ItemDeleted);
 			// 
+			// LockInvoiceButton
+			// 
+			this.LockInvoiceButton.Location = new System.Drawing.Point(311, 13);
+			this.LockInvoiceButton.Name = "LockInvoiceButton";
+			this.LockInvoiceButton.Size = new System.Drawing.Size(90, 23);
+			this.LockInvoiceButton.TabIndex = 11;
+			this.LockInvoiceButton.Text = "Lock Invoice";
+			this.LockInvoiceButton.UseVisualStyleBackColor = true;
+			this.LockInvoiceButton.Click += new System.EventHandler(this.LockInvoiceButton_Click);
+			// 
+			// CreateFileButton
+			// 
+			this.CreateFileButton.Location = new System.Drawing.Point(459, 13);
+			this.CreateFileButton.Name = "CreateFileButton";
+			this.CreateFileButton.Size = new System.Drawing.Size(90, 23);
+			this.CreateFileButton.TabIndex = 12;
+			this.CreateFileButton.Text = "Create File";
+			this.CreateFileButton.UseVisualStyleBackColor = true;
+			this.CreateFileButton.Click += new System.EventHandler(this.CreateFileButton_Click);
+			// 
 			// AddEditInvoiceForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(762, 653);
+			this.ClientSize = new System.Drawing.Size(762, 607);
 			this.Controls.Add(this.InvoiceTableLayoutPanel);
 			this.Name = "AddEditInvoiceForm";
 			this.ShowIcon = false;
@@ -579,11 +687,12 @@
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataSet)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataTable)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoiceItemsDataTable)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.ProductsDataTable)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoiceTypesDataTable)).EndInit();
 			this.InvoiceTableLayoutPanel.ResumeLayout(false);
 			this.TopPanel.ResumeLayout(false);
 			this.TopPanel.PerformLayout();
+			this.BottomPanel.ResumeLayout(false);
+			this.BottomPanel.PerformLayout();
 			this.InvoiceItemsTableLayoutPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -616,11 +725,6 @@
 		private System.Data.DataColumn dataColumn12;
 		private System.Data.DataColumn dataColumn13;
 		private System.Data.DataColumn dataColumn16;
-		private System.Data.DataTable ProductsDataTable;
-		private System.Data.DataColumn dataColumn25;
-		private System.Data.DataColumn dataColumn26;
-		private System.Data.DataColumn dataColumn27;
-		private System.Data.DataColumn dataColumn28;
 		private System.Windows.Forms.BindingSource InvoicesBindingSource;
 		private System.Windows.Forms.TableLayoutPanel InvoiceTableLayoutPanel;
 		private System.Windows.Forms.Panel TopPanel;
@@ -629,9 +733,6 @@
 		private System.Windows.Forms.ComboBox InvoiceTypeComboBox;
 		private System.Windows.Forms.Label label6;
 		private System.Data.DataColumn dataColumn2;
-		private System.Data.DataTable InvoiceTypesDataTable;
-		private System.Data.DataColumn dataColumn3;
-		private System.Data.DataColumn dataColumn4;
 		private System.Windows.Forms.TableLayoutPanel InvoiceItemsTableLayoutPanel;
 		private InvoiceItemUserControl InvoiceItem9;
 		private InvoiceItemUserControl InvoiceItem8;
@@ -646,5 +747,19 @@
 		private System.Data.DataColumn dataColumn15;
 		private System.Data.DataColumn dataColumn17;
 		private System.Data.DataColumn dataColumn18;
+		private System.Data.DataTable InvoiceTypesDataTable;
+		private System.Data.DataColumn dataColumn3;
+		private System.Data.DataColumn dataColumn4;
+		private System.Windows.Forms.Button CalculateGstButton;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Label label5;
+		private Controls.NumericTextBox GstNumericTextBox;
+		private Controls.NumericTextBox SubTotalNumericTextBox;
+		private Controls.NumericTextBox InvoiceTotalNumericTextBox;
+		private Controls.NumericTextBox numericTextBox1;
+		private System.Data.DataColumn dataColumn19;
+		private System.Windows.Forms.Button CreateFileButton;
+		private System.Windows.Forms.Button LockInvoiceButton;
 	}
 }

@@ -260,6 +260,7 @@ namespace OsmingtonMillGarlic
 
 			MarketAttendedDataSet.Tables["Products"].Clear();
 			MarketAttendedDataSet.Tables["Markets"].Clear();
+			MarketAttendedDataSet.Tables["MarketTakings"].Clear();
 			MarketAttendedDataSet.Tables["MarketProducts"].Clear();
 			MarketAttendedDataSet.Tables["MarketSundries"].Clear();
 
