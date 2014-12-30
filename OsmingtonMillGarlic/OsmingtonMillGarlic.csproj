@@ -197,6 +197,9 @@
     <EmbeddedResource Include="Images\TileWindowsVerticallyHS.png" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="OMG Logo Transparent.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="OMG Stencil.ico" />
     <Content Include="OMG.ico" />
   </ItemGroup>

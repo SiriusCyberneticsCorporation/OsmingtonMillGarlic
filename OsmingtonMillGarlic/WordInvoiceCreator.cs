@@ -289,42 +289,91 @@ namespace OsmingtonMillGarlic
 										   m_wordApplication.CentimetersToPoints(5.81f), 0);
 				headerArt.Height = m_wordApplication.CentimetersToPoints(1.18f);
 				headerArt.Width = m_wordApplication.CentimetersToPoints(13.91f);
+
+				// Add a new paragraph for the table.
+				m_currentParagraph = currentRange.Paragraphs.Add(ref MISSING);
+				// Add in a table of 1 row and 4 columns.
+				m_currentTable = currentRange.Tables.Add(m_currentParagraph.Range, 1, 4, ref MISSING, ref MISSING);
+				m_currentTable.Range.set_Style(m_currentDocument.Styles[GetEnumDescription(eInvoiceTextStyle.HeaderTableText)]);
+
+				// Set up cell padding for the entire table.
+				m_currentTable.LeftPadding = m_wordApplication.CentimetersToPoints(0.1f);
+				m_currentTable.RightPadding = m_wordApplication.CentimetersToPoints(0.1f);
+				m_currentTable.TopPadding = m_wordApplication.CentimetersToPoints(0.05f);
+				m_currentTable.BottomPadding = m_wordApplication.CentimetersToPoints(0.05f);
+
+				m_currentTable.Columns[1].Width = m_wordApplication.CentimetersToPoints(8.0f);
+				m_currentTable.Columns[2].Width = m_wordApplication.CentimetersToPoints(9.8f);
+				m_currentTable.Columns[3].Width = m_wordApplication.CentimetersToPoints(6.2f);
+				m_currentTable.Columns[4].Width = m_wordApplication.CentimetersToPoints(1.7f);
+
+				m_currentTable.Cell(1, 1).Range.Text = invoiceDate.ToLongDateString();
+
+				m_currentTable.Cell(1, 2).Range.Text = "TAX INVOICE";
+				m_currentTable.Cell(1, 2).Range.Font.Name = "Cooper Black";
+				m_currentTable.Cell(1, 2).Range.Font.Size = 18;
+				m_currentTable.Cell(1, 2).Range.Font.Bold = (int)eBoldness.NotBold;
+				m_currentTable.Cell(1, 2).Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+
+				m_currentTable.Cell(1, 3).Range.Text = "INVOICE NUMBER:";
+				m_currentTable.Cell(1, 3).Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphRight;
+
+				m_currentTable.Cell(1, 4).Range.Text = invoiceNumber.ToString("00000");
 			}
+			else
+			{
+				// Add a new paragraph for the table.
+				m_currentParagraph = currentRange.Paragraphs.Add(ref MISSING);
+				// Add in a table of 1 row and 4 columns.
+				m_currentTable = currentRange.Tables.Add(m_currentParagraph.Range, 2, 4, ref MISSING, ref MISSING);
+				m_currentTable.Range.set_Style(m_currentDocument.Styles[GetEnumDescription(eInvoiceTextStyle.HeaderTableText)]);
 
-			// Add a new paragraph for the table.
-			m_currentParagraph = currentRange.Paragraphs.Add(ref MISSING);
-			m_currentParagraph.Range.Font.Size = 2;
-			m_currentParagraph.Range.ParagraphFormat.SpaceBeforeAuto = 0;
-			m_currentParagraph.Range.ParagraphFormat.SpaceBefore = 0;
-			m_currentParagraph.Range.ParagraphFormat.SpaceAfterAuto = 0;
-			m_currentParagraph.Range.ParagraphFormat.SpaceAfter = 0;
-			// Add in a table of 1 row and 4 columns.
-			m_currentTable = currentRange.Tables.Add(m_currentParagraph.Range, 1, 4, ref MISSING, ref MISSING);
-			m_currentTable.Range.set_Style(m_currentDocument.Styles[GetEnumDescription(eInvoiceTextStyle.HeaderTableText)]);
+				// Set up cell padding for the entire table.
+				m_currentTable.LeftPadding = m_wordApplication.CentimetersToPoints(0.1f);
+				m_currentTable.RightPadding = m_wordApplication.CentimetersToPoints(0.1f);
+				m_currentTable.TopPadding = m_wordApplication.CentimetersToPoints(0.05f);
+				m_currentTable.BottomPadding = m_wordApplication.CentimetersToPoints(0.05f);
 
-			// Set up cell padding for the entire table.
-			m_currentTable.LeftPadding = m_wordApplication.CentimetersToPoints(0.1f);
-			m_currentTable.RightPadding = m_wordApplication.CentimetersToPoints(0.1f);
-			m_currentTable.TopPadding = m_wordApplication.CentimetersToPoints(0.05f);
-			m_currentTable.BottomPadding = m_wordApplication.CentimetersToPoints(0.05f);
+				m_currentTable.Columns[1].Width = m_wordApplication.CentimetersToPoints(8.0f);
+				m_currentTable.Columns[2].Width = m_wordApplication.CentimetersToPoints(9.8f);
+				m_currentTable.Columns[3].Width = m_wordApplication.CentimetersToPoints(6.2f);
+				m_currentTable.Columns[4].Width = m_wordApplication.CentimetersToPoints(1.7f);
 
-			m_currentTable.Columns[1].Width = m_wordApplication.CentimetersToPoints(8.0f);
-			m_currentTable.Columns[2].Width = m_wordApplication.CentimetersToPoints(9.8f);
-			m_currentTable.Columns[3].Width = m_wordApplication.CentimetersToPoints(6.2f);
-			m_currentTable.Columns[4].Width = m_wordApplication.CentimetersToPoints(1.7f);
+				m_currentTable.Rows[1].Height = m_wordApplication.CentimetersToPoints(1.0f);
+				m_currentTable.Rows[1].Height = m_wordApplication.CentimetersToPoints(1.0f);
 
-			m_currentTable.Cell(1, 1).Range.Text = invoiceDate.ToLongDateString();
+				MergeCells(1, 3, 1, 4);
+				MergeCells(1, 1, 2, 1);
+				MergeCells(1, 2, 2, 2);
 
-			m_currentTable.Cell(1, 2).Range.Text = "TAX INVOICE";
-			m_currentTable.Cell(1, 2).Range.Font.Name = "Cooper Black";
-			m_currentTable.Cell(1, 2).Range.Font.Size = 18;
-			m_currentTable.Cell(1, 2).Range.Font.Bold = (int)eBoldness.NotBold;
-			m_currentTable.Cell(1, 2).Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
-	
-			m_currentTable.Cell(1, 3).Range.Text = "INVOICE NUMBER:";
-			m_currentTable.Cell(1, 3).Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphRight;
-			
-			m_currentTable.Cell(1, 4).Range.Text = invoiceNumber.ToString("00000");
+				SetCellAlignment(1, 3, eParagraphAlignment.Right, eCellVerticalAlignment.Center);
+				m_currentTable.Cell(1, 3).Range.Text = invoiceDate.ToLongDateString();
+
+				m_currentTable.Cell(1, 2).Range.Text = "TAX INVOICE";
+				m_currentTable.Cell(1, 2).Range.Font.Name = "Cooper Black";
+				m_currentTable.Cell(1, 2).Range.Font.Size = 18;
+				m_currentTable.Cell(1, 2).Range.Font.Bold = (int)eBoldness.NotBold;
+				m_currentTable.Cell(1, 2).Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+
+				m_currentTable.Cell(2, 3).Range.Text = "INVOICE NUMBER:";
+				m_currentTable.Cell(2, 3).Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphRight;
+
+				m_currentTable.Cell(2, 4).Range.Text = invoiceNumber.ToString("00000");
+
+
+				string path = System.Windows.Forms.Application.ExecutablePath;
+
+				path = path.Substring(0, path.LastIndexOf("\\") + 1);
+				
+				Word.Shape headerArt = m_wordApplication.Selection.HeaderFooter.Shapes.AddPicture(path + "OMG Logo Transparent.png",
+																									Type.Missing,
+																									Type.Missing,
+																									m_wordApplication.CentimetersToPoints(0.75f),
+																									0,
+																									m_wordApplication.CentimetersToPoints(5.58f),
+																									m_wordApplication.CentimetersToPoints(3.36f),
+																									m_currentTable.Cell(1,1).Range);
+			}			
 
 			m_currentParagraph.Range.Font.Size = 2;
 
@@ -353,9 +402,11 @@ namespace OsmingtonMillGarlic
 			m_currentTable.Columns[2].Width = m_wordApplication.CentimetersToPoints(0.4f);
 			m_currentTable.Columns[3].Width = m_wordApplication.CentimetersToPoints(9.0f);
 			m_currentTable.Columns[4].Width = m_wordApplication.CentimetersToPoints(4.1f);
-			m_currentTable.Columns[5].Width = m_wordApplication.CentimetersToPoints(7.1f);
+			m_currentTable.Columns[5].Width = m_wordApplication.CentimetersToPoints(6.5f);
 			m_currentTable.Columns[6].Width = m_wordApplication.CentimetersToPoints(0.4f);
-			m_currentTable.Columns[7].Width = m_wordApplication.CentimetersToPoints(3.1f);
+			m_currentTable.Columns[7].Width = m_wordApplication.CentimetersToPoints(3.8f);
+
+			SetRowBorder(1, eBorderType.Top, eLineStyle.Single);
 
 			MergeCells(1, 1, 1, 3);
 			MergeCells(2, 1, 2, 3);
@@ -441,7 +492,7 @@ namespace OsmingtonMillGarlic
 
 			SetCurrentParagraphToMiniText();
 			InsertParagraphAfter();
-		}
+		}					
 
 		public void AddInvoiceBody()
 		{
@@ -467,6 +518,7 @@ namespace OsmingtonMillGarlic
 			SetRowBorder(1, eBorderType.Top, eLineStyle.Single);
 			SetRowBorder(1, eBorderType.Left, eLineStyle.Single);
 			SetRowBorder(1, eBorderType.Right, eLineStyle.Single);
+			SetCellBorder(1, 1, eBorderType.Right, eLineStyle.Single);
 			SetCellText(1, 1, "Description");
 			SetCellBoldness(1, 1, eBoldness.Bold);
 			SetCellText(1, 2, "Amount");
@@ -477,16 +529,18 @@ namespace OsmingtonMillGarlic
 			for(int row = 2; row < 18; row += 2)
 			{
 				MergeCells(row, 1, row, 4);
-				SetRowBorder(row, eBorderType.Left, eLineStyle.Single);
-				SetRowBorder(row, eBorderType.Right, eLineStyle.Single);
+				SetCellBorder(row, 1, eBorderType.Left, eLineStyle.Single);
+				SetCellBorder(row, 1, eBorderType.Right, eLineStyle.Single);
+				SetCellBorder(row, 2, eBorderType.Right, eLineStyle.Single);
 			}
 			// Set the item rows to grey.
 			for (int row = 3; row < 19; row += 2)
 			{
 				SetCellAlignment(row, 1, eParagraphAlignment.Right);
 				SetCellAlignment(row, 5, eParagraphAlignment.Right);
-				SetRowBorder(row, eBorderType.Left, eLineStyle.Single);
-				SetRowBorder(row, eBorderType.Right, eLineStyle.Single);
+				SetCellBorder(row, 1, eBorderType.Left, eLineStyle.Single);
+				SetCellBorder(row, 4, eBorderType.Right, eLineStyle.Single);
+				SetCellBorder(row, 5, eBorderType.Right, eLineStyle.Single);
 				m_currentTable.Rows[row].Shading.BackgroundPatternColor = Word.WdColor.wdColorGray25;
 			}
 

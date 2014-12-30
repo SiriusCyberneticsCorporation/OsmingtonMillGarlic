@@ -154,10 +154,6 @@ namespace OsmingtonMillGarlic
 
 			InvoicesDataSet.Tables["Invoices"].Clear();
 			InvoicesDataSet.Tables["InvoiceItems"].Clear();
-			foreach (InvoiceItemUserControl invoiceItem in m_invoiceItems)
-			{
-				invoiceItem.Clear();
-			}
 
 			if (m_invoiceID > 0)
 			{
@@ -192,6 +188,11 @@ namespace OsmingtonMillGarlic
 			}
 			else
 			{
+				foreach (InvoiceItemUserControl invoiceItem in m_invoiceItems)
+				{
+					invoiceItem.Clear();
+				}
+
 				DataRow newInvoiceRow = InvoicesDataSet.Tables["Invoices"].NewRow();
 				newInvoiceRow["InvoiceType"] = 1;
 				newInvoiceRow["InvoiceDate"] = DateTime.Today;
@@ -262,26 +263,32 @@ namespace OsmingtonMillGarlic
 
 		private void CalculateInvoiceTotal()
 		{
-			decimal subTotal = 0;
-			foreach(DataRow row in InvoicesDataSet.Tables["InvoiceItems"].Rows)
+			if (InvoicesDataSet.Tables["Invoices"].Rows.Count > 0)
 			{
-				subTotal += DatabaseAccess.GetDecimal(row["Amount"]);
-			}
-			InvoicesDataSet.Tables["Invoices"].Rows[0]["SubTotal"] = subTotal;
-			
-			if(DatabaseAccess.GetDecimal(InvoicesDataSet.Tables["Invoices"].Rows[0]["GST"]) != 0)
-			{
-				InvoicesDataSet.Tables["Invoices"].Rows[0]["GST"] = subTotal * 0.1M;
-				InvoicesDataSet.Tables["Invoices"].Rows[0]["InvoiceTotal"] = subTotal + subTotal * 0.1M;
-			}
-			else
-			{
-				InvoicesDataSet.Tables["Invoices"].Rows[0]["InvoiceTotal"] = subTotal;
-			}
+				decimal subTotal = 0;
+				foreach (DataRow row in InvoicesDataSet.Tables["InvoiceItems"].Rows)
+				{
+					if (row.RowState != DataRowState.Deleted)
+					{
+						subTotal += DatabaseAccess.GetDecimal(row["Amount"]);
+					}
+				}
+				InvoicesDataSet.Tables["Invoices"].Rows[0]["SubTotal"] = subTotal;
 
-			SubTotalNumericTextBox.Update();
-			GstNumericTextBox.Update();
-			InvoiceTotalNumericTextBox.Update();
+				if (DatabaseAccess.GetDecimal(InvoicesDataSet.Tables["Invoices"].Rows[0]["GST"]) != 0)
+				{
+					InvoicesDataSet.Tables["Invoices"].Rows[0]["GST"] = subTotal * 0.1M;
+					InvoicesDataSet.Tables["Invoices"].Rows[0]["InvoiceTotal"] = subTotal + subTotal * 0.1M;
+				}
+				else
+				{
+					InvoicesDataSet.Tables["Invoices"].Rows[0]["InvoiceTotal"] = subTotal;
+				}
+
+				SubTotalNumericTextBox.Update();
+				GstNumericTextBox.Update();
+				InvoiceTotalNumericTextBox.Update();
+			}
 		}
 
 		private void InvoiceItem_ItemAdded(InvoiceItemUserControl sender, DataRow row)
@@ -306,20 +313,26 @@ namespace OsmingtonMillGarlic
 
 		private void InvoiceItem_ItemAltered(InvoiceItemUserControl sender, DataRow row)
 		{
-			DataRow existingRow = InvoicesDataSet.Tables["InvoiceItems"].Rows.Find(DatabaseAccess.GetInt(row["ID"]));
+			bool rowUpdated = false;
 
-			if(existingRow != null)
+			foreach (DataRow existingRow in InvoicesDataSet.Tables["InvoiceItems"].Rows)
 			{
-				existingRow["InvoiceID"] = m_invoiceID;
-				existingRow["ProductID"] = row["ProductID"];
-				existingRow["Description"] = row["Description"];
-				existingRow["Quantity"] = row["Quantity"];
-				existingRow["UnitsText"] = row["UnitsText"];
-				existingRow["UnitPrice"] = row["UnitPrice"];
-				existingRow["PerUnitText"] = row["PerUnitText"];
-				existingRow["Amount"] = row["Amount"];
+				if (DatabaseAccess.GetInt(existingRow["ID"]) == DatabaseAccess.GetInt(row["ID"]))
+				{
+					existingRow["InvoiceID"] = m_invoiceID;
+					existingRow["ProductID"] = row["ProductID"];
+					existingRow["Description"] = row["Description"];
+					existingRow["Quantity"] = row["Quantity"];
+					existingRow["UnitsText"] = row["UnitsText"];
+					existingRow["UnitPrice"] = row["UnitPrice"];
+					existingRow["PerUnitText"] = row["PerUnitText"];
+					existingRow["Amount"] = row["Amount"];
+					rowUpdated = true;
+					break;
+				}
 			}
-			else 
+			
+			if(!rowUpdated)
 			{
 				DataRow newRow = InvoicesDataSet.Tables["InvoiceItems"].NewRow();
 
@@ -336,7 +349,7 @@ namespace OsmingtonMillGarlic
 
 				sender.Row = newRow;
 			}
-
+			
 			CalculateInvoiceTotal();
 		}
 
@@ -438,6 +451,14 @@ namespace OsmingtonMillGarlic
 			iWordInvoiceCreator.ShowWord();
 
 			Cursor = Cursors.Default;
+		}
+
+		private void RetailCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			foreach (InvoiceItemUserControl invoiceItem in m_invoiceItems)
+			{
+				invoiceItem.Retail = RetailCheckBox.Checked;
+			}
 		}
 
 	}

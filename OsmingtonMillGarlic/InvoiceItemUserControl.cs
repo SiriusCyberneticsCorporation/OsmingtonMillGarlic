@@ -18,7 +18,13 @@ namespace OsmingtonMillGarlic
 		public event InvoiceItemHandler ItemAltered;
 		public event InvoiceItemHandler ItemDeleted;
 
-		public void Clear() { InvoiceItemsDataSet.Tables["InvoiceItems"].Clear(); }
+		public bool Retail = false;
+
+		public void Clear() 
+		{ 
+			InvoiceItemsDataSet.Tables["InvoiceItems"].Clear();
+			InvoiceItemsDataSet.Tables["InvoiceItems"].Rows.Add(InvoiceItemsDataSet.Tables["InvoiceItems"].NewRow());
+		}
 
 		public DataRow Row 
 		{
@@ -48,57 +54,10 @@ namespace OsmingtonMillGarlic
 		public InvoiceItemUserControl()
 		{
 			InitializeComponent();
-						
+
 			InvoiceItemsDataSet.Tables["InvoiceItems"].Rows.Add(InvoiceItemsDataSet.Tables["InvoiceItems"].NewRow());
 		}
-
-		/*
-		public void Set(DataRow row)
-		{
-			m_updatingData = true;
-
-			m_row = row;
-			m_ID = DatabaseAccess.GetInt(row["ID"]);
-			m_productID = DatabaseAccess.GetInt(row["ProductID"]);
-			DescriptionTextBox.Text = DatabaseAccess.GetString(row["Description"]);
-			QuantityNumericTextBox.Text = DatabaseAccess.GetDecimal(row["Quantity"]).ToString();
-			UnitsTextBox.Text = DatabaseAccess.GetString(row["UnitsText"]);
-			UnitPriceNumericTextBox.Text = DatabaseAccess.GetString(row["UnitPrice"]).ToString();
-			PerUnitTextBox.Text = DatabaseAccess.GetString(row["PerUnitText"]);
-			AmountNumericTextBox.Text = DatabaseAccess.GetString(row["Amount"]).ToString();
-
-			m_updatingData = false;
-		}
-
-		public void Get(ref DataRow row)
-		{
-			row["ID"] = m_ID;
-			row["ProductID"] = m_productID;
-			row["Description"] = DescriptionTextBox.Text;
-			row["Quantity"] = QuantityNumericTextBox.DecimalValue;
-			row["UnitsText"] = UnitsTextBox.Text;
-			row["UnitPrice"] = UnitPriceNumericTextBox.DecimalValue;
-			row["PerUnitText"] = PerUnitTextBox.Text;
-			row["Amount"] = AmountNumericTextBox.DecimalValue;
-		}
-		*/
-		/*
-		private void RefreshRowData()
-		{
-			if (m_row == null)
-			{
-				m_row = InvoicesDataSet.Tables["InvoiceItems"].NewRow();
-			}
-			m_row["ID"] = m_ID;
-			m_row["ProductID"] = m_productID;
-			m_row["Description"] = DescriptionTextBox.Text;
-			m_row["Quantity"] = QuantityNumericTextBox.DecimalValue;
-			m_row["UnitsText"] = UnitsTextBox.Text;
-			m_row["UnitPrice"] = UnitPriceNumericTextBox.DecimalValue;
-			m_row["PerUnitText"] = PerUnitTextBox.Text;
-			m_row["Amount"] = AmountNumericTextBox.DecimalValue;
-		}
-		*/
+		
 		private void AddProductButton_Click(object sender, EventArgs e)
 		{
 			AddEditProductForm iAddEditProductForm = new AddEditProductForm();
@@ -108,7 +67,7 @@ namespace OsmingtonMillGarlic
 				if (iAddEditProductForm.SelectedID > 0)
 				{
 					m_productID = iAddEditProductForm.SelectedID;
-					string productsSql = "SELECT Description, WholesalePrice, Unit, Units, PerUnit FROM Products " +
+					string productsSql = "SELECT Description, MarketPrice, WholesalePrice, Unit, Units, PerUnit FROM Products " +
 										 "WHERE ID = " + DatabaseAccess.FormatNumber(m_productID);
 
 					DataTable productsDataTable = m_databaseAccess.ExecuteSelect(productsSql);
@@ -116,26 +75,26 @@ namespace OsmingtonMillGarlic
 					{
 						m_updatingData = true;
 
+						decimal unitPrice;
+
+						if (Retail)
+						{
+							unitPrice = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["MarketPrice"]);
+						}
+						else
+						{
+							unitPrice = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["WholesalePrice"]);
+						}						
+
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["ProductID"] = m_productID;
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Description"] = DatabaseAccess.GetString(productsDataTable.Rows[0]["Description"]);
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Quantity"] = 1;
 						m_unitText = DatabaseAccess.GetString(productsDataTable.Rows[0]["Unit"]);
 						m_unitsText = DatabaseAccess.GetString(productsDataTable.Rows[0]["Units"]);
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitsText"] = m_unitText + " @ ";
-						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitPrice"] = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["WholesalePrice"]);
+						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitPrice"] = unitPrice;
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["PerUnitText"] = DatabaseAccess.GetString(productsDataTable.Rows[0]["PerUnit"]);
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Amount"] = QuantityNumericTextBox.DecimalValue * UnitPriceNumericTextBox.DecimalValue;
-
-						/*
-						DescriptionTextBox.Text = DatabaseAccess.GetString(productsDataTable.Rows[0]["Description"]);
-						QuantityNumericTextBox.Text = "1";
-						m_unitText = DatabaseAccess.GetString(productsDataTable.Rows[0]["Unit"]);
-						m_unitsText = DatabaseAccess.GetString(productsDataTable.Rows[0]["Units"]);
-						UnitsTextBox.Text = m_unitText + " @ ";
-						UnitPriceNumericTextBox.Text = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["WholesalePrice"]).ToString("C2");
-						PerUnitTextBox.Text = DatabaseAccess.GetString(productsDataTable.Rows[0]["PerUnit"]);
-						AmountNumericTextBox.Text = (QuantityNumericTextBox.DecimalValue * UnitPriceNumericTextBox.DecimalValue).ToString("C2");
-						*/
 
 						m_updatingData = false;
 					}
@@ -145,12 +104,11 @@ namespace OsmingtonMillGarlic
 					AlterButton.Visible = true;
 					UnitPriceNumericTextBox.ReadOnly = true;
 
-					//RefreshRowData();
-
-					if(ItemAdded != null)
+					if (ItemAdded != null)
 					{
 						ItemAdded(this, InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]);
 					}
+
 				}
 			}
 		}
@@ -183,7 +141,7 @@ namespace OsmingtonMillGarlic
 				if (iAddEditProductForm.SelectedID > 0)
 				{
 					m_productID = iAddEditProductForm.SelectedID;
-					string productsSql = "SELECT Description, WholesalePrice, Unit, Units, PerUnit FROM Products " +
+					string productsSql = "SELECT Description, MarketPrice, WholesalePrice, Unit, Units, PerUnit FROM Products " +
 										 "WHERE ID = " + DatabaseAccess.FormatNumber(m_productID);
 
 					DataTable productsDataTable = m_databaseAccess.ExecuteSelect(productsSql);
@@ -191,26 +149,26 @@ namespace OsmingtonMillGarlic
 					{
 						m_updatingData = true;
 
+						decimal unitPrice;
+
+						if (Retail)
+						{
+							unitPrice = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["MarketPrice"]);
+						}
+						else
+						{
+							unitPrice = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["WholesalePrice"]);
+						}						
+
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["ProductID"] = m_productID;
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Description"] = DatabaseAccess.GetString(productsDataTable.Rows[0]["Description"]);
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Quantity"] = 1;
 						m_unitText = DatabaseAccess.GetString(productsDataTable.Rows[0]["Unit"]);
 						m_unitsText = DatabaseAccess.GetString(productsDataTable.Rows[0]["Units"]);
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitsText"] = m_unitText + " @ ";
-						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitPrice"] = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["WholesalePrice"]);
+						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitPrice"] = unitPrice;
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["PerUnitText"] = DatabaseAccess.GetString(productsDataTable.Rows[0]["PerUnit"]);
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Amount"] = QuantityNumericTextBox.DecimalValue * UnitPriceNumericTextBox.DecimalValue;
-
-						/*
-						DescriptionTextBox.Text = DatabaseAccess.GetString(productsDataTable.Rows[0]["Description"]);
-						QuantityNumericTextBox.Text = "1";
-						m_unitText = DatabaseAccess.GetString(productsDataTable.Rows[0]["Unit"]);
-						m_unitsText = DatabaseAccess.GetString(productsDataTable.Rows[0]["Units"]);
-						UnitsTextBox.Text = m_unitText + " @ ";
-						UnitPriceNumericTextBox.Text = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["WholesalePrice"]).ToString("C2");
-						PerUnitTextBox.Text = DatabaseAccess.GetString(productsDataTable.Rows[0]["PerUnit"]);
-						AmountNumericTextBox.Text = (QuantityNumericTextBox.DecimalValue * UnitPriceNumericTextBox.DecimalValue).ToString("C2");
-						*/
 
 						m_updatingData = false;
 					}
@@ -219,8 +177,6 @@ namespace OsmingtonMillGarlic
 					DeleteButton.Visible = true;
 					AlterButton.Visible = true;
 					UnitPriceNumericTextBox.ReadOnly = true;
-
-					//RefreshRowData();
 
 					if (ItemAltered != null)
 					{
@@ -260,6 +216,7 @@ namespace OsmingtonMillGarlic
 		{
 			if (!m_updatingData && InvoiceItemsDataSet.Tables["InvoiceItems"].Rows.Count > 0)
 			{
+				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitPrice"] = UnitPriceNumericTextBox.DecimalValue;
 				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Amount"] = QuantityNumericTextBox.DecimalValue * 
 																				UnitPriceNumericTextBox.DecimalValue;
 
@@ -281,27 +238,19 @@ namespace OsmingtonMillGarlic
 					AlterButton.Visible = false;
 				}
 
-				if (sender == QuantityNumericTextBox)
+				if (QuantityNumericTextBox.DecimalValue > 0)
 				{
-					if (QuantityNumericTextBox.DecimalValue > 0)
+					if (QuantityNumericTextBox.DecimalValue > 1 && m_unitsText.Length > 0)
 					{
-						if (QuantityNumericTextBox.DecimalValue > 1 && m_unitsText.Length > 0)
-						{
-							InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitsText"] = m_unitsText + " @ ";
-						}
-						else if (m_unitText.Length > 0)
-						{
-							InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitsText"] = m_unitText + " @ ";
-						}
+						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitsText"] = m_unitsText + " @ ";
 					}
-					InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Amount"] = QuantityNumericTextBox.DecimalValue *
-																					UnitPriceNumericTextBox.DecimalValue;
+					else if (m_unitText.Length > 0)
+					{
+						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitsText"] = m_unitText + " @ ";
+					}
 				}
-				else if (sender == UnitPriceNumericTextBox)
-				{
-					InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Amount"] = QuantityNumericTextBox.DecimalValue *
+				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Amount"] = QuantityNumericTextBox.DecimalValue *
 																				UnitPriceNumericTextBox.DecimalValue;
-				}
 
 				if (ItemAltered != null)
 				{

@@ -42,12 +42,15 @@
 			// 
 			// ProductsComboBox
 			// 
+			this.ProductsComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.ProductsComboBox.DataSource = this.SelectProductDataSet;
 			this.ProductsComboBox.DisplayMember = "Products.Description";
+			this.ProductsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.ProductsComboBox.FormattingEnabled = true;
 			this.ProductsComboBox.Location = new System.Drawing.Point(95, 12);
 			this.ProductsComboBox.Name = "ProductsComboBox";
-			this.ProductsComboBox.Size = new System.Drawing.Size(224, 21);
+			this.ProductsComboBox.Size = new System.Drawing.Size(284, 21);
 			this.ProductsComboBox.TabIndex = 0;
 			this.ProductsComboBox.ValueMember = "Products.ID";
 			// 
@@ -94,8 +97,9 @@
 			// 
 			// TheCancelButton
 			// 
+			this.TheCancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.TheCancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.TheCancelButton.Location = new System.Drawing.Point(205, 44);
+			this.TheCancelButton.Location = new System.Drawing.Point(265, 44);
 			this.TheCancelButton.Name = "TheCancelButton";
 			this.TheCancelButton.Size = new System.Drawing.Size(75, 23);
 			this.TheCancelButton.TabIndex = 3;
@@ -106,12 +110,14 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(331, 80);
+			this.CancelButton = this.TheCancelButton;
+			this.ClientSize = new System.Drawing.Size(391, 80);
 			this.ControlBox = false;
 			this.Controls.Add(this.TheCancelButton);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.OkButton);
 			this.Controls.Add(this.ProductsComboBox);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "AddEditProductForm";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;

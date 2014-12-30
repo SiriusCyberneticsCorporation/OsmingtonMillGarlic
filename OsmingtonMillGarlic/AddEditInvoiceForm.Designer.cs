@@ -66,6 +66,7 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.InvoiceTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.TopPanel = new System.Windows.Forms.Panel();
+			this.RetailCheckBox = new System.Windows.Forms.CheckBox();
 			this.CreateFileButton = new System.Windows.Forms.Button();
 			this.LockInvoiceButton = new System.Windows.Forms.Button();
 			this.InvoiceTypeComboBox = new System.Windows.Forms.ComboBox();
@@ -89,6 +90,7 @@
 			this.InvoiceItem3 = new OsmingtonMillGarlic.InvoiceItemUserControl();
 			this.InvoiceItem2 = new OsmingtonMillGarlic.InvoiceItemUserControl();
 			this.InvoiceItem1 = new OsmingtonMillGarlic.InvoiceItemUserControl();
+			this.dataColumn23 = new System.Data.DataColumn();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesBindingSource)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataSet)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataTable)).BeginInit();
@@ -154,7 +156,8 @@
             this.dataColumn22,
             this.dataColumn1,
             this.dataColumn2,
-            this.dataColumn19});
+            this.dataColumn19,
+            this.dataColumn23});
 			this.InvoicesDataTable.TableName = "Invoices";
 			// 
 			// dataColumn5
@@ -349,6 +352,7 @@
 			// 
 			// TopPanel
 			// 
+			this.TopPanel.Controls.Add(this.RetailCheckBox);
 			this.TopPanel.Controls.Add(this.CreateFileButton);
 			this.TopPanel.Controls.Add(this.LockInvoiceButton);
 			this.TopPanel.Controls.Add(this.InvoiceTypeComboBox);
@@ -368,6 +372,19 @@
 			this.TopPanel.Name = "TopPanel";
 			this.TopPanel.Size = new System.Drawing.Size(762, 118);
 			this.TopPanel.TabIndex = 0;
+			// 
+			// RetailCheckBox
+			// 
+			this.RetailCheckBox.AutoSize = true;
+			this.RetailCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.RetailCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", this.InvoicesBindingSource, "Retail", true));
+			this.RetailCheckBox.Location = new System.Drawing.Point(348, 44);
+			this.RetailCheckBox.Name = "RetailCheckBox";
+			this.RetailCheckBox.Size = new System.Drawing.Size(53, 17);
+			this.RetailCheckBox.TabIndex = 13;
+			this.RetailCheckBox.Text = "Retail";
+			this.RetailCheckBox.UseVisualStyleBackColor = true;
+			this.RetailCheckBox.CheckedChanged += new System.EventHandler(this.RetailCheckBox_CheckedChanged);
 			// 
 			// CreateFileButton
 			// 
@@ -660,6 +677,11 @@
 			this.InvoiceItem1.ItemAltered += new OsmingtonMillGarlic.InvoiceItemUserControl.InvoiceItemHandler(this.InvoiceItem_ItemAltered);
 			this.InvoiceItem1.ItemDeleted += new OsmingtonMillGarlic.InvoiceItemUserControl.InvoiceItemHandler(this.InvoiceItem_ItemDeleted);
 			// 
+			// dataColumn23
+			// 
+			this.dataColumn23.ColumnName = "Retail";
+			this.dataColumn23.DataType = typeof(bool);
+			// 
 			// AddEditInvoiceForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -749,5 +771,7 @@
 		private System.Data.DataColumn dataColumn19;
 		private System.Windows.Forms.Button CreateFileButton;
 		private System.Windows.Forms.Button LockInvoiceButton;
+		private System.Windows.Forms.CheckBox RetailCheckBox;
+		private System.Data.DataColumn dataColumn23;
 	}
 }
