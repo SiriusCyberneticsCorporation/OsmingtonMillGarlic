@@ -66,6 +66,8 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.InvoiceTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
 			this.TopPanel = new System.Windows.Forms.Panel();
+			this.CreateFileButton = new System.Windows.Forms.Button();
+			this.LockInvoiceButton = new System.Windows.Forms.Button();
 			this.InvoiceTypeComboBox = new System.Windows.Forms.ComboBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.SaveButton = new System.Windows.Forms.Button();
@@ -79,7 +81,6 @@
 			this.GstNumericTextBox = new OsmingtonMillGarlic.Controls.NumericTextBox();
 			this.SubTotalNumericTextBox = new OsmingtonMillGarlic.Controls.NumericTextBox();
 			this.InvoiceItemsTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-			this.InvoiceItem9 = new OsmingtonMillGarlic.InvoiceItemUserControl();
 			this.InvoiceItem8 = new OsmingtonMillGarlic.InvoiceItemUserControl();
 			this.InvoiceItem7 = new OsmingtonMillGarlic.InvoiceItemUserControl();
 			this.InvoiceItem6 = new OsmingtonMillGarlic.InvoiceItemUserControl();
@@ -88,8 +89,6 @@
 			this.InvoiceItem3 = new OsmingtonMillGarlic.InvoiceItemUserControl();
 			this.InvoiceItem2 = new OsmingtonMillGarlic.InvoiceItemUserControl();
 			this.InvoiceItem1 = new OsmingtonMillGarlic.InvoiceItemUserControl();
-			this.LockInvoiceButton = new System.Windows.Forms.Button();
-			this.CreateFileButton = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesBindingSource)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataSet)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.InvoicesDataTable)).BeginInit();
@@ -122,7 +121,7 @@
 			// InvoiceDateNullableDatePicker
 			// 
 			this.InvoiceDateNullableDatePicker.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.InvoicesBindingSource, "InvoiceDate", true));
-			this.InvoiceDateNullableDatePicker.Location = new System.Drawing.Point(92, 41);
+			this.InvoiceDateNullableDatePicker.Location = new System.Drawing.Point(91, 41);
 			this.InvoiceDateNullableDatePicker.MaxDate = new System.DateTime(2079, 1, 1, 0, 0, 0, 0);
 			this.InvoiceDateNullableDatePicker.Name = "InvoiceDateNullableDatePicker";
 			this.InvoiceDateNullableDatePicker.Size = new System.Drawing.Size(200, 20);
@@ -343,7 +342,7 @@
 			this.InvoiceTableLayoutPanel.Name = "InvoiceTableLayoutPanel";
 			this.InvoiceTableLayoutPanel.RowCount = 3;
 			this.InvoiceTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 118F));
-			this.InvoiceTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 390F));
+			this.InvoiceTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 346F));
 			this.InvoiceTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
 			this.InvoiceTableLayoutPanel.Size = new System.Drawing.Size(762, 607);
 			this.InvoiceTableLayoutPanel.TabIndex = 0;
@@ -369,6 +368,26 @@
 			this.TopPanel.Name = "TopPanel";
 			this.TopPanel.Size = new System.Drawing.Size(762, 118);
 			this.TopPanel.TabIndex = 0;
+			// 
+			// CreateFileButton
+			// 
+			this.CreateFileButton.Location = new System.Drawing.Point(459, 13);
+			this.CreateFileButton.Name = "CreateFileButton";
+			this.CreateFileButton.Size = new System.Drawing.Size(90, 23);
+			this.CreateFileButton.TabIndex = 12;
+			this.CreateFileButton.Text = "Create File";
+			this.CreateFileButton.UseVisualStyleBackColor = true;
+			this.CreateFileButton.Click += new System.EventHandler(this.CreateFileButton_Click);
+			// 
+			// LockInvoiceButton
+			// 
+			this.LockInvoiceButton.Location = new System.Drawing.Point(311, 13);
+			this.LockInvoiceButton.Name = "LockInvoiceButton";
+			this.LockInvoiceButton.Size = new System.Drawing.Size(90, 23);
+			this.LockInvoiceButton.TabIndex = 11;
+			this.LockInvoiceButton.Text = "Lock Invoice";
+			this.LockInvoiceButton.UseVisualStyleBackColor = true;
+			this.LockInvoiceButton.Click += new System.EventHandler(this.LockInvoiceButton_Click);
 			// 
 			// InvoiceTypeComboBox
 			// 
@@ -413,10 +432,10 @@
 			this.BottomPanel.Controls.Add(this.GstNumericTextBox);
 			this.BottomPanel.Controls.Add(this.SubTotalNumericTextBox);
 			this.BottomPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.BottomPanel.Location = new System.Drawing.Point(12, 511);
+			this.BottomPanel.Location = new System.Drawing.Point(12, 467);
 			this.BottomPanel.Margin = new System.Windows.Forms.Padding(12, 3, 12, 12);
 			this.BottomPanel.Name = "BottomPanel";
-			this.BottomPanel.Size = new System.Drawing.Size(738, 85);
+			this.BottomPanel.Size = new System.Drawing.Size(738, 128);
 			this.BottomPanel.TabIndex = 2;
 			// 
 			// numericTextBox1
@@ -445,6 +464,7 @@
 			this.InvoiceTotalNumericTextBox.Size = new System.Drawing.Size(100, 20);
 			this.InvoiceTotalNumericTextBox.TabIndex = 2;
 			this.InvoiceTotalNumericTextBox.TabStop = false;
+			this.InvoiceTotalNumericTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// CalculateGstButton
 			// 
@@ -499,6 +519,7 @@
 			this.GstNumericTextBox.Size = new System.Drawing.Size(100, 20);
 			this.GstNumericTextBox.TabIndex = 1;
 			this.GstNumericTextBox.TabStop = false;
+			this.GstNumericTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// SubTotalNumericTextBox
 			// 
@@ -512,13 +533,13 @@
 			this.SubTotalNumericTextBox.Size = new System.Drawing.Size(100, 20);
 			this.SubTotalNumericTextBox.TabIndex = 0;
 			this.SubTotalNumericTextBox.TabStop = false;
+			this.SubTotalNumericTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			// 
 			// InvoiceItemsTableLayoutPanel
 			// 
 			this.InvoiceItemsTableLayoutPanel.AutoScroll = true;
 			this.InvoiceItemsTableLayoutPanel.ColumnCount = 1;
 			this.InvoiceItemsTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.InvoiceItemsTableLayoutPanel.Controls.Add(this.InvoiceItem9, 0, 8);
 			this.InvoiceItemsTableLayoutPanel.Controls.Add(this.InvoiceItem8, 0, 7);
 			this.InvoiceItemsTableLayoutPanel.Controls.Add(this.InvoiceItem7, 0, 6);
 			this.InvoiceItemsTableLayoutPanel.Controls.Add(this.InvoiceItem6, 0, 5);
@@ -540,20 +561,8 @@
 			this.InvoiceItemsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.InvoiceItemsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.InvoiceItemsTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.InvoiceItemsTableLayoutPanel.Size = new System.Drawing.Size(756, 384);
+			this.InvoiceItemsTableLayoutPanel.Size = new System.Drawing.Size(756, 340);
 			this.InvoiceItemsTableLayoutPanel.TabIndex = 1;
-			// 
-			// InvoiceItem9
-			// 
-			this.InvoiceItem9.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.InvoiceItem9.Location = new System.Drawing.Point(10, 336);
-			this.InvoiceItem9.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
-			this.InvoiceItem9.Name = "InvoiceItem9";
-			this.InvoiceItem9.Size = new System.Drawing.Size(736, 48);
-			this.InvoiceItem9.TabIndex = 8;
-			this.InvoiceItem9.ItemAdded += new OsmingtonMillGarlic.InvoiceItemUserControl.InvoiceItemHandler(this.InvoiceItem_ItemAdded);
-			this.InvoiceItem9.ItemAltered += new OsmingtonMillGarlic.InvoiceItemUserControl.InvoiceItemHandler(this.InvoiceItem_ItemAltered);
-			this.InvoiceItem9.ItemDeleted += new OsmingtonMillGarlic.InvoiceItemUserControl.InvoiceItemHandler(this.InvoiceItem_ItemDeleted);
 			// 
 			// InvoiceItem8
 			// 
@@ -651,26 +660,6 @@
 			this.InvoiceItem1.ItemAltered += new OsmingtonMillGarlic.InvoiceItemUserControl.InvoiceItemHandler(this.InvoiceItem_ItemAltered);
 			this.InvoiceItem1.ItemDeleted += new OsmingtonMillGarlic.InvoiceItemUserControl.InvoiceItemHandler(this.InvoiceItem_ItemDeleted);
 			// 
-			// LockInvoiceButton
-			// 
-			this.LockInvoiceButton.Location = new System.Drawing.Point(311, 13);
-			this.LockInvoiceButton.Name = "LockInvoiceButton";
-			this.LockInvoiceButton.Size = new System.Drawing.Size(90, 23);
-			this.LockInvoiceButton.TabIndex = 11;
-			this.LockInvoiceButton.Text = "Lock Invoice";
-			this.LockInvoiceButton.UseVisualStyleBackColor = true;
-			this.LockInvoiceButton.Click += new System.EventHandler(this.LockInvoiceButton_Click);
-			// 
-			// CreateFileButton
-			// 
-			this.CreateFileButton.Location = new System.Drawing.Point(459, 13);
-			this.CreateFileButton.Name = "CreateFileButton";
-			this.CreateFileButton.Size = new System.Drawing.Size(90, 23);
-			this.CreateFileButton.TabIndex = 12;
-			this.CreateFileButton.Text = "Create File";
-			this.CreateFileButton.UseVisualStyleBackColor = true;
-			this.CreateFileButton.Click += new System.EventHandler(this.CreateFileButton_Click);
-			// 
 			// AddEditInvoiceForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -734,7 +723,6 @@
 		private System.Windows.Forms.Label label6;
 		private System.Data.DataColumn dataColumn2;
 		private System.Windows.Forms.TableLayoutPanel InvoiceItemsTableLayoutPanel;
-		private InvoiceItemUserControl InvoiceItem9;
 		private InvoiceItemUserControl InvoiceItem8;
 		private InvoiceItemUserControl InvoiceItem7;
 		private InvoiceItemUserControl InvoiceItem6;

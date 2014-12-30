@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Word = Microsoft.Office.Interop.Word;
-using Microsoft.Office.Core;
+//using Word = Microsoft.Office.Interop.Word;
+//using Microsoft.Office.Core;
 
 namespace OsmingtonMillGarlic
 {
@@ -34,7 +34,6 @@ namespace OsmingtonMillGarlic
 			m_invoiceItems.Add(InvoiceItem6);
 			m_invoiceItems.Add(InvoiceItem7);
 			m_invoiceItems.Add(InvoiceItem8);
-			m_invoiceItems.Add(InvoiceItem9);
 
 			m_invoiceID = invoiceID;
 		}
@@ -384,85 +383,61 @@ namespace OsmingtonMillGarlic
 			}
 		}
 
-		private static object MISSING = System.Reflection.Missing.Value;
-		private static object ENDOFDOC = "\\endofdoc"; /* \endofdoc is a predefined bookmark */
-		private Word.Application m_wordApplication = new Word.Application();
-		private Word.Document m_currentDocument = null;
-		private Word.Paragraph m_currentParagraph = null;
-		private Word.Table m_currentTable = null;
-
 		private void CreateFileButton_Click(object sender, EventArgs e)
 		{
-			object template = MISSING;
+			Cursor = Cursors.WaitCursor;
 
-			// Hide Word while creating the document to speed things up.
-			m_wordApplication.Visible = false;
+			int invoiceNumber = DatabaseAccess.GetInt(InvoicesDataSet.Tables["Invoices"].Rows[0]["InvoiceNumber"]);
+			DateTime invoiceDate = DatabaseAccess.GetDateTime(InvoicesDataSet.Tables["Invoices"].Rows[0]["InvoiceDate"]);
+			eInvoiceType invoiceType;
+			WordInvoiceCreator iWordInvoiceCreator = new WordInvoiceCreator();
 
-			// Create a new Document, by calling the Add function in the Documents collection
-			m_currentDocument = m_wordApplication.Documents.Add(ref template, ref MISSING, ref MISSING, ref MISSING);
-			m_currentDocument.PageSetup.Orientation = Word.WdOrientation.wdOrientLandscape;
-			m_currentDocument.PageSetup.TopMargin = m_wordApplication.CentimetersToPoints(1.5f);
-			m_currentDocument.PageSetup.BottomMargin = m_wordApplication.CentimetersToPoints(1.5f);
-			m_currentDocument.PageSetup.LeftMargin = m_wordApplication.CentimetersToPoints(2.0f);
-			m_currentDocument.PageSetup.RightMargin = m_wordApplication.CentimetersToPoints(2.0f);
+			if ((int)InvoiceTypeComboBox.SelectedValue == (int)eInvoiceType.JeanetteAndRichard)
+			{
+				invoiceType = eInvoiceType.JeanetteAndRichard;
+			}
+			else
+			{
+				invoiceType = eInvoiceType.OsmingtonMillGarlic;
+			}
 
-			// Setting the focus on the page header
-			m_currentDocument.ActiveWindow.ActivePane.View.SeekView = Word.WdSeekView.wdSeekCurrentPageHeader;
+			iWordInvoiceCreator.CreateInvoice();
+			iWordInvoiceCreator.FillInHeader(invoiceType, invoiceDate, invoiceNumber);
+			iWordInvoiceCreator.FillInFooter(invoiceType);
+			iWordInvoiceCreator.AddRecipientInformation(invoiceType,
+														DatabaseAccess.GetString(InvoicesDataSet.Tables["Invoices"].Rows[0]["InvoiceTo"]),
+														DatabaseAccess.GetString(InvoicesDataSet.Tables["Invoices"].Rows[0]["Reference"]));
 
-			// Inserting the page numbers centrally aligned in the page header
-			m_currentDocument.ActiveWindow.Selection.Paragraphs.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
+			iWordInvoiceCreator.AddInvoiceBody();
 
-			Word.Range currentRange = m_currentDocument.ActiveWindow.Selection.Range;
-			
-			// Insert first Header Line.
-			//m_currentParagraph = currentRange.Paragraphs.Add(ref MISSING);
-			//m_currentParagraph.Range.Font.Size = 38;
+			int rowNumber = 2;
+			decimal subTotal = 0;
 
+			foreach (DataRow row in InvoicesDataSet.Tables["InvoiceItems"].Rows)
+			{
+				decimal quantity = DatabaseAccess.GetDecimal(row["Quantity"]);
+				decimal unitPrice = DatabaseAccess.GetDecimal(row["UnitPrice"]);
+				decimal amount = quantity * unitPrice;
 
-			// Insert first Header Line.
-			m_currentParagraph = currentRange.Paragraphs.Add(ref MISSING);
-			m_currentParagraph.Range.Font.Size = 38;
-			m_currentParagraph.Range.InsertParagraphAfter();
+				subTotal += amount;
 
-			currentRange = currentRange.Sections.Last.Range;
+				iWordInvoiceCreator.SetCellText(rowNumber, 1, DatabaseAccess.GetString(row["Description"]));
+				rowNumber++;
+				iWordInvoiceCreator.SetCellText(rowNumber, 1, quantity.ToString());
+				iWordInvoiceCreator.SetCellText(rowNumber, 2, DatabaseAccess.GetString(row["UnitsText"]));
+				iWordInvoiceCreator.SetCellText(rowNumber, 3, unitPrice.ToString("C2"));
+				iWordInvoiceCreator.SetCellText(rowNumber, 4, DatabaseAccess.GetString(row["PerUnitText"]));
+				iWordInvoiceCreator.SetCellText(rowNumber, 5, amount.ToString("C2"));
+				rowNumber++;
+			}
+			iWordInvoiceCreator.SetCellText(18, 3, subTotal.ToString("C2"));
+			iWordInvoiceCreator.SetCellText(20, 3, subTotal.ToString("C2"));
 
-			m_currentTable = m_currentDocument.Tables.Add(currentRange, 1, 4, ref MISSING, ref MISSING);
-			//m_currentTable.Range.set_Style(m_currentDocument.Styles[GMSHelper.GetEnumDescription(ReportTextStyle.TableText)]);
+			iWordInvoiceCreator.AddBankDetails();
 
-			// Set up cell padding for the entire table.
-			m_currentTable.LeftPadding = m_wordApplication.CentimetersToPoints(0.1f);
-			m_currentTable.RightPadding = m_wordApplication.CentimetersToPoints(0.1f);
-			m_currentTable.TopPadding = m_wordApplication.CentimetersToPoints(0.05f);
-			m_currentTable.BottomPadding = m_wordApplication.CentimetersToPoints(0.05f);
+			iWordInvoiceCreator.ShowWord();
 
-			m_currentTable.Columns[1].Width = m_wordApplication.CentimetersToPoints(8.0f);
-			m_currentTable.Columns[2].Width = m_wordApplication.CentimetersToPoints(9.8f);
-			m_currentTable.Columns[3].Width = m_wordApplication.CentimetersToPoints(6.2f);
-			m_currentTable.Columns[4].Width = m_wordApplication.CentimetersToPoints(1.7f);
-
-			m_currentTable.Cell(1, 1).Range.Text = "Date";
-			m_currentTable.Cell(1, 2).Range.Text = "TAX INVOICE";
-			m_currentTable.Cell(1, 3).Range.Text = "INVOICE NUMBER";
-			m_currentTable.Cell(1, 4).Range.Text = "nnn";
-
-			m_wordApplication.Selection.HeaderFooter.Shapes.AddTextEffect(MsoPresetTextEffect.msoTextEffect9,
-									   "Jeanette & Richard Smith",
-									   "Boboni MT Black",
-									   36,
-									   MsoTriState.msoFalse,
-									   MsoTriState.msoFalse,
-									   0, 0, MISSING);
-
-
-			// Make word visible to show the results.
-			m_wordApplication.Visible = true;
-			m_wordApplication.Activate();
-
-		}
-
-		private Word.Range GetLastRangeInDocument()
-		{
-			return m_currentDocument.Bookmarks.get_Item(ref ENDOFDOC).Range;
+			Cursor = Cursors.Default;
 		}
 
 	}
