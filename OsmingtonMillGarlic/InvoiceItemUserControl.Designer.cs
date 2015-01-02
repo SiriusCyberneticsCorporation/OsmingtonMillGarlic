@@ -77,7 +77,7 @@
 			this.DescriptionTextBox.Name = "DescriptionTextBox";
 			this.DescriptionTextBox.Size = new System.Drawing.Size(645, 20);
 			this.DescriptionTextBox.TabIndex = 0;
-			this.DescriptionTextBox.Validated += new System.EventHandler(this.Control_Validated);
+			this.DescriptionTextBox.Leave += new System.EventHandler(this.DescriptionTextBox_Leave);
 			// 
 			// InvoiceItemsBindingSource
 			// 
@@ -155,7 +155,7 @@
 			this.UnitsTextBox.Name = "UnitsTextBox";
 			this.UnitsTextBox.Size = new System.Drawing.Size(100, 20);
 			this.UnitsTextBox.TabIndex = 2;
-			this.UnitsTextBox.Validated += new System.EventHandler(this.Control_Validated);
+			this.UnitsTextBox.Leave += new System.EventHandler(this.UnitsTextBox_Leave);
 			// 
 			// PerUnitTextBox
 			// 
@@ -167,7 +167,7 @@
 			this.PerUnitTextBox.Name = "PerUnitTextBox";
 			this.PerUnitTextBox.Size = new System.Drawing.Size(432, 20);
 			this.PerUnitTextBox.TabIndex = 4;
-			this.PerUnitTextBox.Validated += new System.EventHandler(this.Control_Validated);
+			this.PerUnitTextBox.Leave += new System.EventHandler(this.PerUnitTextBox_Leave);
 			// 
 			// AddProductButton
 			// 
@@ -213,41 +213,38 @@
 			this.AmountNumericTextBox.AllowNegative = true;
 			this.AmountNumericTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.AmountNumericTextBox.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.AmountNumericTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoiceItemsBindingSource, "Amount", true));
+			this.AmountNumericTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoiceItemsBindingSource, "Amount", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
 			this.AmountNumericTextBox.Location = new System.Drawing.Point(645, 22);
 			this.AmountNumericTextBox.Name = "AmountNumericTextBox";
 			this.AmountNumericTextBox.ReadOnly = true;
 			this.AmountNumericTextBox.Size = new System.Drawing.Size(100, 20);
 			this.AmountNumericTextBox.TabIndex = 5;
 			this.AmountNumericTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-			this.AmountNumericTextBox.Validated += new System.EventHandler(this.Control_Validated);
 			// 
 			// UnitPriceNumericTextBox
 			// 
 			this.UnitPriceNumericTextBox.AllowDecimal = true;
 			this.UnitPriceNumericTextBox.AllowNegative = true;
 			this.UnitPriceNumericTextBox.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.UnitPriceNumericTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoiceItemsBindingSource, "UnitPrice", true));
+			this.UnitPriceNumericTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoiceItemsBindingSource, "UnitPrice", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "C2"));
 			this.UnitPriceNumericTextBox.Location = new System.Drawing.Point(161, 22);
 			this.UnitPriceNumericTextBox.Name = "UnitPriceNumericTextBox";
 			this.UnitPriceNumericTextBox.Size = new System.Drawing.Size(54, 20);
 			this.UnitPriceNumericTextBox.TabIndex = 3;
 			this.UnitPriceNumericTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.UnitPriceNumericTextBox.NumberEntered += new OsmingtonMillGarlic.Controls.NumericTextBox.NumberEnteredHandler(this.UnitPriceNumericTextBox_NumberEntered);
-			this.UnitPriceNumericTextBox.Validated += new System.EventHandler(this.Control_Validated);
 			// 
 			// QuantityNumericTextBox
 			// 
 			this.QuantityNumericTextBox.AllowDecimal = true;
 			this.QuantityNumericTextBox.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.QuantityNumericTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoiceItemsBindingSource, "Quantity", true));
+			this.QuantityNumericTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.InvoiceItemsBindingSource, "Quantity", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "N2"));
 			this.QuantityNumericTextBox.Location = new System.Drawing.Point(1, 22);
 			this.QuantityNumericTextBox.Name = "QuantityNumericTextBox";
 			this.QuantityNumericTextBox.Size = new System.Drawing.Size(62, 20);
 			this.QuantityNumericTextBox.TabIndex = 1;
 			this.QuantityNumericTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
 			this.QuantityNumericTextBox.NumberEntered += new OsmingtonMillGarlic.Controls.NumericTextBox.NumberEnteredHandler(this.QuantityNumericTextBox_NumberEntered);
-			this.QuantityNumericTextBox.Validated += new System.EventHandler(this.Control_Validated);
 			// 
 			// InvoiceItemUserControl
 			// 

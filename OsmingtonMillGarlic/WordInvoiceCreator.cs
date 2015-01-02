@@ -340,7 +340,7 @@ namespace OsmingtonMillGarlic
 				m_currentTable.Columns[4].Width = m_wordApplication.CentimetersToPoints(1.7f);
 
 				m_currentTable.Rows[1].Height = m_wordApplication.CentimetersToPoints(1.0f);
-				m_currentTable.Rows[1].Height = m_wordApplication.CentimetersToPoints(1.0f);
+				m_currentTable.Rows[2].Height = m_wordApplication.CentimetersToPoints(1.0f);
 
 				MergeCells(1, 3, 1, 4);
 				MergeCells(1, 1, 2, 1);
@@ -351,7 +351,7 @@ namespace OsmingtonMillGarlic
 
 				m_currentTable.Cell(1, 2).Range.Text = "TAX INVOICE";
 				m_currentTable.Cell(1, 2).Range.Font.Name = "Cooper Black";
-				m_currentTable.Cell(1, 2).Range.Font.Size = 18;
+				m_currentTable.Cell(1, 2).Range.Font.Size = 24;
 				m_currentTable.Cell(1, 2).Range.Font.Bold = (int)eBoldness.NotBold;
 				m_currentTable.Cell(1, 2).Range.ParagraphFormat.Alignment = Word.WdParagraphAlignment.wdAlignParagraphCenter;
 
@@ -370,8 +370,8 @@ namespace OsmingtonMillGarlic
 																									Type.Missing,
 																									m_wordApplication.CentimetersToPoints(0.75f),
 																									0,
-																									m_wordApplication.CentimetersToPoints(5.58f),
-																									m_wordApplication.CentimetersToPoints(3.36f),
+																									m_wordApplication.CentimetersToPoints(5.0f),
+																									m_wordApplication.CentimetersToPoints(3.7f),
 																									m_currentTable.Cell(1,1).Range);
 			}			
 
@@ -428,12 +428,14 @@ namespace OsmingtonMillGarlic
 			//SetCellText(1, 2, "Page");
 			//SetCellText(2, 2, "1");	// TODO
 
+			SetCellAlignment(1, 3, eParagraphAlignment.Right);
 			SetCellText(1, 3, "Phone");
 			SetCellText(1, 4, ":");
 			SetCellText(1, 5, "(08) 9757 4545");
 
 			if (invoiceType == eInvoiceType.OsmingtonMillGarlic)
 			{
+				SetCellAlignment(2, 3, eParagraphAlignment.Right);
 				SetCellText(2, 3, "ABN");
 				SetCellText(2, 4, ":");
 				SetCellText(2, 5, "443 554 460 527");

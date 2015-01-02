@@ -17,6 +17,7 @@ namespace OsmingtonMillGarlic
 	{
 		public bool IsNewInvoice { get { return m_invoiceID == -1; } }
 
+		private int m_dummyID = -1;
 		private int m_invoiceID = -1;
 		private bool m_updatingData = false;
 		private DatabaseAccess m_databaseAccess = new DatabaseAccess();
@@ -291,10 +292,11 @@ namespace OsmingtonMillGarlic
 			}
 		}
 
-		private void InvoiceItem_ItemAdded(InvoiceItemUserControl sender, DataRow row)
+		private void InsertNewRow(InvoiceItemUserControl sender, DataRow row)
 		{
 			DataRow newRow = InvoicesDataSet.Tables["InvoiceItems"].NewRow();
 
+			newRow["ID"] = m_dummyID--;
 			newRow["InvoiceID"] = m_invoiceID;
 			newRow["ProductID"] = row["ProductID"];
 			newRow["Description"] = row["Description"];
@@ -305,9 +307,13 @@ namespace OsmingtonMillGarlic
 			newRow["Amount"] = row["Amount"];
 
 			InvoicesDataSet.Tables["InvoiceItems"].Rows.Add(newRow);
-			
-			sender.Row = newRow;
 
+			sender.Row = newRow;
+		}
+
+		private void InvoiceItem_ItemAdded(InvoiceItemUserControl sender, DataRow row)
+		{
+			InsertNewRow(sender, row);
 			CalculateInvoiceTotal();
 		}
 
@@ -334,20 +340,7 @@ namespace OsmingtonMillGarlic
 			
 			if(!rowUpdated)
 			{
-				DataRow newRow = InvoicesDataSet.Tables["InvoiceItems"].NewRow();
-
-				newRow["InvoiceID"] = m_invoiceID;
-				newRow["ProductID"] = row["ProductID"];
-				newRow["Description"] = row["Description"];
-				newRow["Quantity"] = row["Quantity"];
-				newRow["UnitsText"] = row["UnitsText"];
-				newRow["UnitPrice"] = row["UnitPrice"];
-				newRow["PerUnitText"] = row["PerUnitText"];
-				newRow["Amount"] = row["Amount"];
-
-				InvoicesDataSet.Tables["InvoiceItems"].Rows.Add(newRow);
-
-				sender.Row = newRow;
+				InsertNewRow(sender, row);
 			}
 			
 			CalculateInvoiceTotal();

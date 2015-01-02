@@ -190,6 +190,10 @@ namespace OsmingtonMillGarlic
 		{
 			if (!m_updatingData && InvoiceItemsDataSet.Tables["InvoiceItems"].Rows.Count > 0)
 			{
+				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Quantity"] = QuantityNumericTextBox.DecimalValue;
+				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Amount"] = QuantityNumericTextBox.DecimalValue *
+																				UnitPriceNumericTextBox.DecimalValue;
+
 				if (QuantityNumericTextBox.DecimalValue > 0)
 				{
 					if (QuantityNumericTextBox.DecimalValue > 1 && m_unitsText.Length > 0)
@@ -201,9 +205,6 @@ namespace OsmingtonMillGarlic
 						InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitsText"] = m_unitText + " @ ";
 					}
 				}
-				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Quantity"] = QuantityNumericTextBox.DecimalValue;
-				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Amount"] = QuantityNumericTextBox.DecimalValue * 
-																				UnitPriceNumericTextBox.DecimalValue;
 
 				if (ItemAltered != null)
 				{
@@ -251,6 +252,66 @@ namespace OsmingtonMillGarlic
 				}
 				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Amount"] = QuantityNumericTextBox.DecimalValue *
 																				UnitPriceNumericTextBox.DecimalValue;
+
+				if (ItemAltered != null)
+				{
+					ItemAltered(this, InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]);
+				}
+			}
+		}
+
+		private void DescriptionTextBox_Leave(object sender, EventArgs e)
+		{
+			if (!m_updatingData && InvoiceItemsDataSet.Tables["InvoiceItems"].Rows.Count > 0)
+			{
+				if (DescriptionTextBox.Text.Length > 0)
+				{
+					AddProductButton.Visible = false;
+					DeleteButton.Visible = true;
+					AlterButton.Visible = false;
+				}
+
+				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Description"] = DescriptionTextBox.Text;
+
+				if (ItemAltered != null)
+				{
+					ItemAltered(this, InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]);
+				}
+			}
+		}
+
+		private void UnitsTextBox_Leave(object sender, EventArgs e)
+		{
+			if (!m_updatingData && InvoiceItemsDataSet.Tables["InvoiceItems"].Rows.Count > 0)
+			{
+				if (DescriptionTextBox.Text.Length > 0)
+				{
+					AddProductButton.Visible = false;
+					DeleteButton.Visible = true;
+					AlterButton.Visible = false;
+				}
+
+				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitsText"] = UnitsTextBox.Text;
+
+				if (ItemAltered != null)
+				{
+					ItemAltered(this, InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]);
+				}
+			}
+		}
+
+		private void PerUnitTextBox_Leave(object sender, EventArgs e)
+		{
+			if (!m_updatingData && InvoiceItemsDataSet.Tables["InvoiceItems"].Rows.Count > 0)
+			{
+				if (DescriptionTextBox.Text.Length > 0)
+				{
+					AddProductButton.Visible = false;
+					DeleteButton.Visible = true;
+					AlterButton.Visible = false;
+				}
+
+				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["PerUnitText"] = PerUnitTextBox.Text;
 
 				if (ItemAltered != null)
 				{
