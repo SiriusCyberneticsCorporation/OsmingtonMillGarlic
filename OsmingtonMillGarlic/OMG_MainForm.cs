@@ -225,5 +225,11 @@ namespace OsmingtonMillGarlic
 				ShowChildForm(new AddEditInvoiceForm(-1));
 			}
 		}
+
+		private void marketSummaryToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MarketSummaryReportForm iMarketSummaryReportForm = new MarketSummaryReportForm();
+			iMarketSummaryReportForm.ShowDialog(this);
+		}
 	}
 }

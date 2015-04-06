@@ -126,6 +126,12 @@
     <Compile Include="MarketsForm.Designer.cs">
       <DependentUpon>MarketsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MarketSummaryReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MarketSummaryReportForm.Designer.cs">
+      <DependentUpon>MarketSummaryReportForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="OMG_MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MarketsForm.resx">
       <DependentUpon>MarketsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MarketSummaryReportForm.resx">
+      <DependentUpon>MarketSummaryReportForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OMG_MainForm.resx">
       <DependentUpon>OMG_MainForm.cs</DependentUpon>

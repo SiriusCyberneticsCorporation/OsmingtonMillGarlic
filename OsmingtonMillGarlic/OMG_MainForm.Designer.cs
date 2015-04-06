@@ -55,6 +55,8 @@
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.InvoicesToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.NewInvoiceToolStripButton = new System.Windows.Forms.ToolStripButton();
+			this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.marketSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MainMenu.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -66,7 +68,8 @@
             this.productsToolStripMenuItem,
             this.marketsToolStripMenuItem,
             this.invoicesToolStripMenuItem,
-            this.windowToolStripMenuItem});
+            this.windowToolStripMenuItem,
+            this.reportsToolStripMenuItem});
 			this.MainMenu.Location = new System.Drawing.Point(0, 0);
 			this.MainMenu.MdiWindowListItem = this.windowToolStripMenuItem;
 			this.MainMenu.Name = "MainMenu";
@@ -290,6 +293,21 @@
 			this.NewInvoiceToolStripButton.Text = "New Invoice";
 			this.NewInvoiceToolStripButton.Click += new System.EventHandler(this.NewInvoiceToolStripButton_Click);
 			// 
+			// reportsToolStripMenuItem
+			// 
+			this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.marketSummaryToolStripMenuItem});
+			this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+			this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+			this.reportsToolStripMenuItem.Text = "Reports";
+			// 
+			// marketSummaryToolStripMenuItem
+			// 
+			this.marketSummaryToolStripMenuItem.Name = "marketSummaryToolStripMenuItem";
+			this.marketSummaryToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+			this.marketSummaryToolStripMenuItem.Text = "Market Summary";
+			this.marketSummaryToolStripMenuItem.Click += new System.EventHandler(this.marketSummaryToolStripMenuItem_Click);
+			// 
 			// OMG_MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -341,6 +359,8 @@
 		private System.Windows.Forms.ToolStripButton NewInvoiceToolStripButton;
 		private System.Windows.Forms.ToolStripButton CashManagementToolStripButton;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripMenuItem reportsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem marketSummaryToolStripMenuItem;
 	}
 }
 

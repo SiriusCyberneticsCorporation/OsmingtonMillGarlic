@@ -90,6 +90,16 @@ namespace OsmingtonMillGarlic
 			{
 				ProductsDataSet.Tables["Products"].Merge(productsDataTable);
 			}
+
+			string garlicVarietySql = "SELECT * FROM GarlicVariety";
+
+			ProductsDataSet.Tables["GarlicVariety"].Clear();
+
+			DataTable garlicVarietyDataTable = m_databaseAccess.ExecuteSelect(garlicVarietySql);
+			if (garlicVarietyDataTable != null && garlicVarietyDataTable.Rows.Count > 0)
+			{
+				ProductsDataSet.Tables["GarlicVariety"].Merge(garlicVarietyDataTable);
+			}
 		}
 
 		private bool SaveChanges()

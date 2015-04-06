@@ -33,6 +33,7 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.ProductsDataSet = new System.Data.DataSet();
 			this.ProductsDataTable = new System.Data.DataTable();
 			this.dataColumn1 = new System.Data.DataColumn();
@@ -43,13 +44,20 @@
 			this.dataColumn6 = new System.Data.DataColumn();
 			this.dataColumn7 = new System.Data.DataColumn();
 			this.dataColumn8 = new System.Data.DataColumn();
-			this.SaveButton = new System.Windows.Forms.Button();
-			this.ProductsDataGridViewWithPaste = new OsmingtonMillGarlic.Controls.DataGridViewWithPaste();
 			this.dataColumn9 = new System.Data.DataColumn();
+			this.SaveButton = new System.Windows.Forms.Button();
+			this.dataColumn10 = new System.Data.DataColumn();
+			this.dataColumn11 = new System.Data.DataColumn();
+			this.GarlicVarietyDataTable = new System.Data.DataTable();
+			this.dataColumn12 = new System.Data.DataColumn();
+			this.dataColumn13 = new System.Data.DataColumn();
+			this.ProductsDataGridViewWithPaste = new OsmingtonMillGarlic.Controls.DataGridViewWithPaste();
 			this.Column1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.descriptionDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.wholesalePriceDataGridViewTextBoxColumn = new OsmingtonMillGarlic.Controls.NumericDataGridViewColumn();
 			this.marketPriceDataGridViewTextBoxColumn = new OsmingtonMillGarlic.Controls.NumericDataGridViewColumn();
+			this.UnitWeightColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.VarietyIDColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.Unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Units = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.PerUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,6 +65,7 @@
 			this.DisplayOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			((System.ComponentModel.ISupportInitialize)(this.ProductsDataSet)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ProductsDataTable)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.GarlicVarietyDataTable)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.ProductsDataGridViewWithPaste)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -64,7 +73,8 @@
 			// 
 			this.ProductsDataSet.DataSetName = "NewDataSet";
 			this.ProductsDataSet.Tables.AddRange(new System.Data.DataTable[] {
-            this.ProductsDataTable});
+            this.ProductsDataTable,
+            this.GarlicVarietyDataTable});
 			// 
 			// ProductsDataTable
 			// 
@@ -77,7 +87,9 @@
             this.dataColumn6,
             this.dataColumn7,
             this.dataColumn8,
-            this.dataColumn9});
+            this.dataColumn9,
+            this.dataColumn10,
+            this.dataColumn11});
 			this.ProductsDataTable.TableName = "Products";
 			// 
 			// dataColumn1
@@ -118,16 +130,46 @@
 			// 
 			this.dataColumn8.ColumnName = "Units";
 			// 
+			// dataColumn9
+			// 
+			this.dataColumn9.ColumnName = "PerUnit";
+			// 
 			// SaveButton
 			// 
 			this.SaveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.SaveButton.Location = new System.Drawing.Point(598, 12);
+			this.SaveButton.Location = new System.Drawing.Point(721, 12);
 			this.SaveButton.Name = "SaveButton";
 			this.SaveButton.Size = new System.Drawing.Size(75, 23);
 			this.SaveButton.TabIndex = 1;
 			this.SaveButton.Text = "Save";
 			this.SaveButton.UseVisualStyleBackColor = true;
 			this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+			// 
+			// dataColumn10
+			// 
+			this.dataColumn10.ColumnName = "UnitWeight";
+			this.dataColumn10.DataType = typeof(decimal);
+			// 
+			// dataColumn11
+			// 
+			this.dataColumn11.ColumnName = "VarietyID";
+			this.dataColumn11.DataType = typeof(int);
+			// 
+			// GarlicVarietyDataTable
+			// 
+			this.GarlicVarietyDataTable.Columns.AddRange(new System.Data.DataColumn[] {
+            this.dataColumn12,
+            this.dataColumn13});
+			this.GarlicVarietyDataTable.TableName = "GarlicVariety";
+			// 
+			// dataColumn12
+			// 
+			this.dataColumn12.ColumnName = "ID";
+			this.dataColumn12.DataType = typeof(int);
+			// 
+			// dataColumn13
+			// 
+			this.dataColumn13.ColumnName = "Name";
 			// 
 			// ProductsDataGridViewWithPaste
 			// 
@@ -151,6 +193,8 @@
             this.descriptionDataGridViewTextBoxColumn,
             this.wholesalePriceDataGridViewTextBoxColumn,
             this.marketPriceDataGridViewTextBoxColumn,
+            this.UnitWeightColumn,
+            this.VarietyIDColumn,
             this.Unit,
             this.Units,
             this.PerUnit,
@@ -160,19 +204,15 @@
 			this.ProductsDataGridViewWithPaste.DataSource = this.ProductsDataSet;
 			this.ProductsDataGridViewWithPaste.Location = new System.Drawing.Point(12, 12);
 			this.ProductsDataGridViewWithPaste.Name = "ProductsDataGridViewWithPaste";
-			this.ProductsDataGridViewWithPaste.Size = new System.Drawing.Size(580, 290);
+			this.ProductsDataGridViewWithPaste.Size = new System.Drawing.Size(703, 290);
 			this.ProductsDataGridViewWithPaste.TabIndex = 0;
-			// 
-			// dataColumn9
-			// 
-			this.dataColumn9.ColumnName = "PerUnit";
 			// 
 			// Column1
 			// 
 			this.Column1.DataPropertyName = "Active";
 			this.Column1.HeaderText = "Active";
 			this.Column1.Name = "Column1";
-			this.Column1.Width = 50;
+			this.Column1.Width = 40;
 			// 
 			// descriptionDataGridViewTextBoxColumn
 			// 
@@ -192,8 +232,7 @@
 			this.wholesalePriceDataGridViewTextBoxColumn.HeaderText = "Wholesale Price";
 			this.wholesalePriceDataGridViewTextBoxColumn.Name = "wholesalePriceDataGridViewTextBoxColumn";
 			this.wholesalePriceDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.wholesalePriceDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.wholesalePriceDataGridViewTextBoxColumn.Width = 80;
+			this.wholesalePriceDataGridViewTextBoxColumn.Width = 65;
 			// 
 			// marketPriceDataGridViewTextBoxColumn
 			// 
@@ -206,35 +245,56 @@
 			this.marketPriceDataGridViewTextBoxColumn.HeaderText = "Market Price";
 			this.marketPriceDataGridViewTextBoxColumn.Name = "marketPriceDataGridViewTextBoxColumn";
 			this.marketPriceDataGridViewTextBoxColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-			this.marketPriceDataGridViewTextBoxColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-			this.marketPriceDataGridViewTextBoxColumn.Width = 80;
+			this.marketPriceDataGridViewTextBoxColumn.Width = 65;
+			// 
+			// UnitWeightColumn
+			// 
+			this.UnitWeightColumn.DataPropertyName = "UnitWeight";
+			dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.UnitWeightColumn.DefaultCellStyle = dataGridViewCellStyle4;
+			this.UnitWeightColumn.HeaderText = "Weight";
+			this.UnitWeightColumn.Name = "UnitWeightColumn";
+			this.UnitWeightColumn.Width = 50;
+			// 
+			// VarietyIDColumn
+			// 
+			this.VarietyIDColumn.DataPropertyName = "VarietyID";
+			this.VarietyIDColumn.DataSource = this.ProductsDataSet;
+			this.VarietyIDColumn.DisplayMember = "GarlicVariety.Name";
+			this.VarietyIDColumn.HeaderText = "Variety";
+			this.VarietyIDColumn.Name = "VarietyIDColumn";
+			this.VarietyIDColumn.ValueMember = "GarlicVariety.ID";
+			this.VarietyIDColumn.Width = 110;
 			// 
 			// Unit
 			// 
 			this.Unit.DataPropertyName = "Unit";
 			this.Unit.HeaderText = "Unit";
 			this.Unit.Name = "Unit";
-			this.Unit.Width = 60;
+			this.Unit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.Unit.Width = 50;
 			// 
 			// Units
 			// 
 			this.Units.DataPropertyName = "Units";
 			this.Units.HeaderText = "Units";
 			this.Units.Name = "Units";
-			this.Units.Width = 60;
+			this.Units.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.Units.Width = 50;
 			// 
 			// PerUnit
 			// 
 			this.PerUnit.DataPropertyName = "PerUnit";
 			this.PerUnit.HeaderText = "Per Unit Text";
 			this.PerUnit.Name = "PerUnit";
-			this.PerUnit.Width = 80;
+			this.PerUnit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.PerUnit.Width = 55;
 			// 
 			// iDDataGridViewTextBoxColumn
 			// 
 			this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
-			dataGridViewCellStyle4.NullValue = "0";
-			this.iDDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
+			dataGridViewCellStyle5.NullValue = "0";
+			this.iDDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle5;
 			this.iDDataGridViewTextBoxColumn.HeaderText = "ID";
 			this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
 			this.iDDataGridViewTextBoxColumn.Visible = false;
@@ -242,8 +302,8 @@
 			// DisplayOrder
 			// 
 			this.DisplayOrder.DataPropertyName = "DisplayOrder";
-			dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-			this.DisplayOrder.DefaultCellStyle = dataGridViewCellStyle5;
+			dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+			this.DisplayOrder.DefaultCellStyle = dataGridViewCellStyle6;
 			this.DisplayOrder.HeaderText = "Display Order";
 			this.DisplayOrder.Name = "DisplayOrder";
 			this.DisplayOrder.Width = 50;
@@ -252,7 +312,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(685, 314);
+			this.ClientSize = new System.Drawing.Size(808, 314);
 			this.Controls.Add(this.SaveButton);
 			this.Controls.Add(this.ProductsDataGridViewWithPaste);
 			this.Name = "ProductsForm";
@@ -263,6 +323,7 @@
 			this.Load += new System.EventHandler(this.ProductsForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.ProductsDataSet)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.ProductsDataTable)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.GarlicVarietyDataTable)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.ProductsDataGridViewWithPaste)).EndInit();
 			this.ResumeLayout(false);
 
@@ -283,10 +344,17 @@
 		private System.Data.DataColumn dataColumn7;
 		private System.Data.DataColumn dataColumn8;
 		private System.Data.DataColumn dataColumn9;
+		private System.Data.DataColumn dataColumn10;
+		private System.Data.DataColumn dataColumn11;
+		private System.Data.DataTable GarlicVarietyDataTable;
+		private System.Data.DataColumn dataColumn12;
+		private System.Data.DataColumn dataColumn13;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn descriptionDataGridViewTextBoxColumn;
 		private Controls.NumericDataGridViewColumn wholesalePriceDataGridViewTextBoxColumn;
 		private Controls.NumericDataGridViewColumn marketPriceDataGridViewTextBoxColumn;
+		private System.Windows.Forms.DataGridViewTextBoxColumn UnitWeightColumn;
+		private System.Windows.Forms.DataGridViewComboBoxColumn VarietyIDColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Unit;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Units;
 		private System.Windows.Forms.DataGridViewTextBoxColumn PerUnit;
