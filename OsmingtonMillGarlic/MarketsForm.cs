@@ -34,7 +34,7 @@ namespace OsmingtonMillGarlic
 
 		public void RefreshDisplay()
 		{
-			string marketsSql = "SELECT ID, MarketDate, MarketLocation, ActualCashAfterMarket, Comments FROM Markets";
+			string marketsSql = "SELECT ID, MarketDate, MarketLocation, ActualCashAfterMarket, Comments FROM Markets ORDER BY MarketDate DESC";
 
 			MarketsDataSet.Tables["Markets"].Clear();
 

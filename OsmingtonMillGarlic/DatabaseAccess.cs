@@ -802,8 +802,8 @@ namespace OsmingtonMillGarlic
 			{
 				m_databaseConnectionString = "SERVER=SiriusServer;" +
 											 "DATABASE=OsmingtonMillGarlic;" +
-											 "UID=root;" +
-											 "PASSWORD=05m1ngt0n; " +
+											 "UID=richard;" +
+											 "PASSWORD=richard; " +
 											 "Encrypt = true; ";
 
 				return m_databaseConnectionString.Length > 0;

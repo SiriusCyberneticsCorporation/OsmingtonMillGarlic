@@ -29,8 +29,20 @@ namespace OsmingtonMillGarlic
 		{
 			FetchData();
 		}
+        
+        private void StallCostsNumericTextBox_NumberEntered(Controls.NumericTextBox source)
+        {
+            if (!m_updatingData)
+            {
+                m_updatingData = true;
 
-		private void CashFloatNumericTextBox_NumberEntered(Controls.NumericTextBox source)
+                CalculateTakings();
+
+                m_updatingData = false;
+            }
+        }
+
+        private void CashFloatNumericTextBox_NumberEntered(Controls.NumericTextBox source)
 		{
 			if (!m_updatingData)
 			{
@@ -334,7 +346,7 @@ namespace OsmingtonMillGarlic
 				DataRow newMarketRow = MarketAttendedDataSet.Tables["Markets"].NewRow();
 				newMarketRow["MarketDate"] = DateTime.Today;
 				newMarketRow["MarketLocation"] = "Margaret River";
-				newMarketRow["StallCosts"] = 25;
+				newMarketRow["StallCosts"] = Properties.Settings.Default.DefaultMarketCost;
 				newMarketRow["CashFloat"] = floatAmount;
 				MarketAttendedDataSet.Tables["Markets"].Rows.Add(newMarketRow);
 
@@ -447,6 +459,5 @@ namespace OsmingtonMillGarlic
 
 			return successful;
 		}
-
-	}
+    }
 }
