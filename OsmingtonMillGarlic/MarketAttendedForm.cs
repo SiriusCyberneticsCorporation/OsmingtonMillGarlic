@@ -157,7 +157,31 @@ namespace OsmingtonMillGarlic
 			SaveChanges();
 		}
 
-		private void CalculateTakings()
+        private void ShowWeightSold()
+        {
+            decimal weightSold = 0;
+
+            foreach (DataGridViewRow row in ProductsDataGridViewWithPaste.Rows)
+            {
+                int productID = DatabaseAccess.GetInt(row.Cells["Products_ProductIDColumn"].Value);
+                DataRow[] products = MarketAttendedDataSet.Tables["Products"].Select("ID = " + DatabaseAccess.FormatNumber(productID));
+
+                if (products != null && products.Length > 0)
+                {
+                    if (DatabaseAccess.GetBool(products[0]["WholeGarlic"]))
+                    {
+                        int itemsSold = DatabaseAccess.GetInt(row.Cells["Products_SoldAtMarketColumn"].Value);
+                        decimal unitWeight = DatabaseAccess.GetDecimal(products[0]["UnitWeight"]);
+
+                        weightSold += unitWeight * itemsSold;
+                    }
+                }
+            }
+
+            WeightSoldNumericTextBox.Text = weightSold.ToString();
+        }
+
+        private void CalculateTakings()
 		{
 			if (MarketAttendedDataSet.Tables["Markets"] != null && MarketAttendedDataSet.Tables["Markets"].Rows.Count > 0)
 			{				
@@ -185,9 +209,9 @@ namespace OsmingtonMillGarlic
 				foreach (DataGridViewRow row in ProductsDataGridViewWithPaste.Rows)
 				{
 					takings += DatabaseAccess.GetDecimal(row.Cells["Products_AmountColumn"].Value);
-				}
+                }
 
-				foreach (DataGridViewRow row in SundryItemsDataGridViewWithPaste.Rows)
+                foreach (DataGridViewRow row in SundryItemsDataGridViewWithPaste.Rows)
 				{
 					takings += DatabaseAccess.GetDecimal(row.Cells["Sundries_ProfitLossColumn"].Value);
 				}
@@ -196,7 +220,9 @@ namespace OsmingtonMillGarlic
 				MarketAttendedDataSet.Tables["Markets"].Rows[0]["ActualCashAfterMarket"] = cash;
 				MarketAttendedDataSet.Tables["Markets"].Rows[0]["Discrepancy"] = cash - takings + costs;
 
-				TakingsNumericTextBox.Update();
+                ShowWeightSold();
+
+                TakingsNumericTextBox.Update();
 				DiscrepancyNumericTextBox.Update();
 			}
 		}
@@ -268,15 +294,15 @@ namespace OsmingtonMillGarlic
 		{
 			m_updatingData = true;
 
-			string productsSql = "SELECT ID, Active, Description, MarketPrice FROM Products ORDER BY DisplayOrder";
-
 			MarketAttendedDataSet.Tables["Products"].Clear();
 			MarketAttendedDataSet.Tables["Markets"].Clear();
 			MarketAttendedDataSet.Tables["MarketTakings"].Clear();
 			MarketAttendedDataSet.Tables["MarketProducts"].Clear();
 			MarketAttendedDataSet.Tables["MarketSundries"].Clear();
 
-			DataTable productsDataTable = m_databaseAccess.ExecuteSelect(productsSql);
+            string productsSql = "SELECT ID, Active, Description, MarketPrice, UnitWeight, WholeGarlic FROM Products ORDER BY DisplayOrder";
+
+            DataTable productsDataTable = m_databaseAccess.ExecuteSelect(productsSql);
 			if (productsDataTable != null && productsDataTable.Rows.Count > 0)
 			{
 				MarketAttendedDataSet.Tables["Products"].Merge(productsDataTable);
@@ -358,7 +384,6 @@ namespace OsmingtonMillGarlic
 					if (DatabaseAccess.GetBool(row["Active"]))
 					{
 						DataRow newProductRow = MarketAttendedDataSet.Tables["MarketProducts"].NewRow();
-						//newProductRow["MarketID"] = -1;
 						newProductRow["ProductID"] = DatabaseAccess.GetInt(row["ID"]);
 						MarketAttendedDataSet.Tables["MarketProducts"].Rows.Add(newProductRow);
 					}
@@ -368,7 +393,9 @@ namespace OsmingtonMillGarlic
 			// Reset the Binding to synchronise fetch data with displayed and UNEDITED data.
 			MarketAttendedBindingSource.ResetBindings(false);
 
-			m_updatingData = false;
+            ShowWeightSold();
+
+            m_updatingData = false;
 		}
 
 		private bool SaveChanges()

@@ -18,7 +18,47 @@ namespace OsmingtonMillGarlic
 		public event InvoiceItemHandler ItemAltered;
 		public event InvoiceItemHandler ItemDeleted;
 
-		public bool Retail = false;
+		public bool Retail
+        {
+            get { return m_retail; }
+            set
+            {
+                m_retail = value;
+
+                if (m_productID > 0)
+                {
+                    string productsSql = "SELECT Description, MarketPrice, WholesalePrice, Unit, Units, PerUnit FROM Products " +
+                                         "WHERE ID = " + DatabaseAccess.FormatNumber(m_productID);
+
+                    DataTable productsDataTable = m_databaseAccess.ExecuteSelect(productsSql);
+                    if (productsDataTable != null && productsDataTable.Rows.Count > 0)
+                    {
+                        m_updatingData = true;
+
+                        decimal unitPrice;
+
+                        if (m_retail)
+                        {
+                            unitPrice = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["MarketPrice"]);
+                        }
+                        else
+                        {
+                            unitPrice = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["WholesalePrice"]);
+                        }
+
+                        InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["UnitPrice"] = unitPrice;
+                        InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["Amount"] = QuantityNumericTextBox.DecimalValue * UnitPriceNumericTextBox.DecimalValue;
+
+                        m_updatingData = false;
+
+                        if (ItemAltered != null)
+                        {
+                            ItemAltered(this, InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]);
+                        }
+                    }
+                }
+            }
+        }
 
 		public void Clear() 
 		{ 
@@ -36,7 +76,9 @@ namespace OsmingtonMillGarlic
 				InvoiceItemsDataSet.Tables["InvoiceItems"].Clear();
 				InvoiceItemsDataSet.Tables["InvoiceItems"].Rows.Add(value.ItemArray);
 
-				AddProductButton.Visible = false;
+                m_productID = DatabaseAccess.GetInt(InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]["ProductID"]);
+
+                AddProductButton.Visible = false;
 				DeleteButton.Visible = true;
 				AlterButton.Visible = false;
 
@@ -46,7 +88,8 @@ namespace OsmingtonMillGarlic
 
 //		private int m_ID = -1;
 		private int m_productID = -1;
-		private bool m_updatingData = false;
+        private bool m_retail = false;
+        private bool m_updatingData = false;
 		private string m_unitText = string.Empty;
 		private string m_unitsText = string.Empty;
 		private DatabaseAccess m_databaseAccess = new DatabaseAccess();
@@ -77,7 +120,7 @@ namespace OsmingtonMillGarlic
 
 						decimal unitPrice;
 
-						if (Retail)
+						if (m_retail)
 						{
 							unitPrice = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["MarketPrice"]);
 						}
@@ -108,7 +151,6 @@ namespace OsmingtonMillGarlic
 					{
 						ItemAdded(this, InvoiceItemsDataSet.Tables["InvoiceItems"].Rows[0]);
 					}
-
 				}
 			}
 		}
@@ -127,8 +169,12 @@ namespace OsmingtonMillGarlic
 				m_productID = -1;
 				m_unitText = string.Empty;
 				m_unitsText = string.Empty;
+                AddProductButton.Visible = true;
+                DeleteButton.Visible = false;
+                AlterButton.Visible = false;
+                AddProductButton.Focus();
 
-				m_updatingData = false;
+                m_updatingData = false;
 			}
 		}
 
@@ -151,7 +197,7 @@ namespace OsmingtonMillGarlic
 
 						decimal unitPrice;
 
-						if (Retail)
+						if (m_retail)
 						{
 							unitPrice = DatabaseAccess.GetDecimal(productsDataTable.Rows[0]["MarketPrice"]);
 						}

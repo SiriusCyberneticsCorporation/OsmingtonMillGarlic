@@ -164,7 +164,9 @@ namespace OsmingtonMillGarlic
 				if (invoicesDataTable != null && invoicesDataTable.Rows.Count > 0)
 				{
 					InvoicesDataSet.Tables["Invoices"].Merge(invoicesDataTable);
-				}
+
+                    RetailCheckBox.Checked = DatabaseAccess.GetBool(InvoicesDataSet.Tables["Invoices"].Rows[0]["Retail"]);
+                }
 
 				string invoiceItemsSql = "SELECT * FROM InvoiceItems WHERE InvoiceID = " + DatabaseAccess.FormatNumber(m_invoiceID);
 
@@ -179,7 +181,8 @@ namespace OsmingtonMillGarlic
 						if (rowNumber < m_invoiceItems.Count)
 						{
 							m_invoiceItems[rowNumber].Row = row;
-						}
+                            m_invoiceItems[rowNumber].Retail = RetailCheckBox.Checked;
+                        }
 						rowNumber++;
 					}
 				}
@@ -194,7 +197,9 @@ namespace OsmingtonMillGarlic
 					invoiceItem.Clear();
 				}
 
-				DataRow newInvoiceRow = InvoicesDataSet.Tables["Invoices"].NewRow();
+                RetailCheckBox.Checked = false;
+
+                DataRow newInvoiceRow = InvoicesDataSet.Tables["Invoices"].NewRow();
 				newInvoiceRow["InvoiceType"] = 1;
 				newInvoiceRow["InvoiceDate"] = DateTime.Today;
 				newInvoiceRow["InvoiceNumber"] = NextInvoiceNumber();
@@ -323,7 +328,7 @@ namespace OsmingtonMillGarlic
 
 			foreach (DataRow existingRow in InvoicesDataSet.Tables["InvoiceItems"].Rows)
 			{
-				if (DatabaseAccess.GetInt(existingRow["ID"]) == DatabaseAccess.GetInt(row["ID"]))
+				if (existingRow.RowState != DataRowState.Deleted && DatabaseAccess.GetInt(existingRow["ID"]) == DatabaseAccess.GetInt(row["ID"]))
 				{
 					existingRow["InvoiceID"] = m_invoiceID;
 					existingRow["ProductID"] = row["ProductID"];
@@ -348,12 +353,21 @@ namespace OsmingtonMillGarlic
 
 		private void InvoiceItem_ItemDeleted(InvoiceItemUserControl sender, DataRow row)
 		{
-			DataRow existingRow = InvoicesDataSet.Tables["InvoiceItems"].Rows.Find(DatabaseAccess.GetInt(row["ID"]));
+			DataRow foundRow = null;
 
-			if (existingRow != null)
+            foreach (DataRow existingRow in InvoicesDataSet.Tables["InvoiceItems"].Rows)
+            {
+                if (existingRow.RowState != DataRowState.Deleted && DatabaseAccess.GetInt(existingRow["ID"]) == DatabaseAccess.GetInt(row["ID"]))
+                {
+                    foundRow = existingRow;
+                    break;
+                }
+            }
+
+            if (foundRow != null)
 			{
 				// Get the index of the selected row in the source DataSet.
-				int index = InvoicesDataSet.Tables["InvoiceItems"].Rows.IndexOf(existingRow);
+				int index = InvoicesDataSet.Tables["InvoiceItems"].Rows.IndexOf(foundRow);
 				// Mark the row as deleted.
 				InvoicesDataSet.Tables["InvoiceItems"].Rows[index].Delete();
 
@@ -448,11 +462,17 @@ namespace OsmingtonMillGarlic
 
 		private void RetailCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
-			foreach (InvoiceItemUserControl invoiceItem in m_invoiceItems)
-			{
-				invoiceItem.Retail = RetailCheckBox.Checked;
-			}
-		}
+            if (!m_updatingData)
+            {
+                InvoicesDataSet.Tables["Invoices"].Rows[0]["Retail"] = RetailCheckBox.Checked;
+
+                foreach (InvoiceItemUserControl invoiceItem in m_invoiceItems)
+                {
+                    invoiceItem.Retail = RetailCheckBox.Checked;
+                }
+                CalculateInvoiceTotal();
+            }
+        }
 
 	}
 }

@@ -101,6 +101,8 @@
             this.BottomPanel = new System.Windows.Forms.Panel();
             this.CommentsTextBox = new System.Windows.Forms.TextBox();
             this.CommentsLabel = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.dataColumn39 = new System.Data.DataColumn();
             this.ProductsDataGridViewWithPaste = new OsmingtonMillGarlic.Controls.DataGridViewWithPaste();
             this.Products_IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Products_MarketIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -115,6 +117,7 @@
             this.Sundries_MarketIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Sundries_DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Sundries_ProfitLossColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.WeightSoldNumericTextBox = new OsmingtonMillGarlic.Controls.NumericTextBox();
             this.CashFloatNumericTextBox = new OsmingtonMillGarlic.Controls.NumericTextBox();
             this.MarketTakingsDataGridViewWithPaste = new OsmingtonMillGarlic.Controls.DataGridViewWithPaste();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -135,6 +138,7 @@
             this.MarketDateNullableDatePicker = new OsmingtonMillGarlic.Controls.NullableDatePicker();
             this.TakingsNumericTextBox = new OsmingtonMillGarlic.Controls.NumericTextBox();
             this.StallCostsNumericTextBox = new OsmingtonMillGarlic.Controls.NumericTextBox();
+            this.dataColumn40 = new System.Data.DataColumn();
             ((System.ComponentModel.ISupportInitialize)(this.MarketAttendedDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MarketsDataTable)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MarketProductsDataTable)).BeginInit();
@@ -308,7 +312,9 @@
             this.dataColumn13,
             this.dataColumn14,
             this.dataColumn15,
-            this.dataColumn23});
+            this.dataColumn23,
+            this.dataColumn39,
+            this.dataColumn40});
             this.ProductsDataTable.TableName = "Products";
             // 
             // dataColumn13
@@ -516,6 +522,8 @@
             // 
             // TopPanel
             // 
+            this.TopPanel.Controls.Add(this.WeightSoldNumericTextBox);
+            this.TopPanel.Controls.Add(this.label3);
             this.TopPanel.Controls.Add(this.CashFloatNumericTextBox);
             this.TopPanel.Controls.Add(this.label2);
             this.TopPanel.Controls.Add(this.MarketTakingsDataGridViewWithPaste);
@@ -568,7 +576,7 @@
             // 
             // SaveButton
             // 
-            this.SaveButton.Location = new System.Drawing.Point(605, 13);
+            this.SaveButton.Location = new System.Drawing.Point(605, 9);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(75, 23);
             this.SaveButton.TabIndex = 4;
@@ -614,6 +622,20 @@
             this.CommentsLabel.Size = new System.Drawing.Size(686, 15);
             this.CommentsLabel.TabIndex = 10;
             this.CommentsLabel.Text = "Comments";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(505, 41);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(65, 13);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Weight Sold";
+            // 
+            // dataColumn39
+            // 
+            this.dataColumn39.ColumnName = "WholeGarlic";
+            this.dataColumn39.DataType = typeof(bool);
             // 
             // ProductsDataGridViewWithPaste
             // 
@@ -765,6 +787,17 @@
             this.Sundries_ProfitLossColumn.DefaultCellStyle = dataGridViewCellStyle7;
             this.Sundries_ProfitLossColumn.HeaderText = "Profit/Loss";
             this.Sundries_ProfitLossColumn.Name = "Sundries_ProfitLossColumn";
+            // 
+            // WeightSoldNumericTextBox
+            // 
+            this.WeightSoldNumericTextBox.AllowDecimal = true;
+            this.WeightSoldNumericTextBox.BackColor = System.Drawing.SystemColors.Window;
+            this.WeightSoldNumericTextBox.Location = new System.Drawing.Point(580, 38);
+            this.WeightSoldNumericTextBox.Name = "WeightSoldNumericTextBox";
+            this.WeightSoldNumericTextBox.ReadOnly = true;
+            this.WeightSoldNumericTextBox.Size = new System.Drawing.Size(100, 20);
+            this.WeightSoldNumericTextBox.TabIndex = 16;
+            this.WeightSoldNumericTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // CashFloatNumericTextBox
             // 
@@ -979,6 +1012,11 @@
             this.StallCostsNumericTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.StallCostsNumericTextBox.NumberEntered += new OsmingtonMillGarlic.Controls.NumericTextBox.NumberEnteredHandler(this.StallCostsNumericTextBox_NumberEntered);
             // 
+            // dataColumn40
+            // 
+            this.dataColumn40.ColumnName = "UnitWeight";
+            this.dataColumn40.DataType = typeof(decimal);
+            // 
             // MarketAttendedForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1111,5 +1149,9 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn TenCentCoinsColumn;
 		private System.Windows.Forms.DataGridViewTextBoxColumn FiveCentCoinsColumn;
 		private System.Data.DataColumn dataColumn38;
-	}
+        private Controls.NumericTextBox WeightSoldNumericTextBox;
+        private System.Windows.Forms.Label label3;
+        private System.Data.DataColumn dataColumn39;
+        private System.Data.DataColumn dataColumn40;
+    }
 }

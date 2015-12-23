@@ -18,11 +18,23 @@ namespace OsmingtonMillGarlic
 		{
 			InitializeComponent();
 
-			StartDateNullableDatePicker.Value = null;
-			EndDateNullableDatePicker.Value = null;
+			StartDateNullableDatePicker.Value = DateTime.Now.AddDays(0- (((int)(DateTime.Now.DayOfWeek) + 1) % 7));
+			EndDateNullableDatePicker.Value = DateTime.Now;
 		}
 
-		private void DatePicker_ValueChanged(object sender, EventArgs e)
+        private void StartDateNullableDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            EndDateNullableDatePicker.MinDate = StartDateNullableDatePicker.DateTimeValue;
+            ShowResults();
+        }
+
+        private void EndDateNullableDatePicker_ValueChanged(object sender, EventArgs e)
+        {
+            StartDateNullableDatePicker.MaxDate = EndDateNullableDatePicker.DateTimeValue;
+            ShowResults();
+        }
+
+        private void ShowResults()
 		{
 			string querySQL = "SELECT GarlicVariety.Name AS GarlicVariety, Products.Description, " +
 							  "SUM(MarketProducts.SoldAtMarket) AS NumberSold, " +
@@ -55,8 +67,43 @@ namespace OsmingtonMillGarlic
 			if (reportDataTable != null && reportDataTable.Rows.Count > 0)
 			{
 				MarketSummaryDataSet.Tables["MarketSummary"].Merge(reportDataTable);
-			}
 
-		}
-	}
+                decimal totalNumberSold = 0;
+                decimal totalTotalWeight = 0;
+                decimal totalTotalValue = 0;
+                foreach (DataRow row in MarketSummaryDataSet.Tables["MarketSummary"].Rows)
+                {
+                    totalNumberSold += DatabaseAccess.GetDecimal(row["NumberSold"]);
+                    totalTotalWeight += DatabaseAccess.GetDecimal(row["TotalWeight"]);
+                    totalTotalValue += DatabaseAccess.GetDecimal(row["TotalValue"]);
+                }
+
+                TotalNumberSoldTextBox.Text = totalNumberSold.ToString();
+                TotalTotalWeightTextBox.Text = totalTotalWeight.ToString();
+                TotalTotalValueTextBox.Text = totalTotalValue.ToString();
+            }
+        }
+
+        private void MarketSummaryDataGridView_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            int left = MarketSummaryDataGridView.Left + 2;
+            int GarlicVarietyColumnWidth = MarketSummaryDataGridView.Columns["GarlicVarietyColumn"].Width;
+            int DescriptionColumnWidth = MarketSummaryDataGridView.Columns["DescriptionColumn"].Width;
+            int NumberSoldColumnWidth = MarketSummaryDataGridView.Columns["NumberSoldColumn"].Width;
+            int TotalWeightColumnWidth = MarketSummaryDataGridView.Columns["TotalWeightColumn"].Width;
+            int TotalValueColumnWidth = MarketSummaryDataGridView.Columns["TotalValueColumn"].Width;
+
+            TotalsLabel.Top = MarketSummaryDataGridView.Bottom + 1;
+            TotalsLabel.Width = GarlicVarietyColumnWidth + DescriptionColumnWidth;
+            TotalNumberSoldTextBox.Top = MarketSummaryDataGridView.Bottom + 1;
+            TotalNumberSoldTextBox.Left = left + GarlicVarietyColumnWidth + DescriptionColumnWidth;
+            TotalNumberSoldTextBox.Width = NumberSoldColumnWidth;
+            TotalTotalWeightTextBox.Top = MarketSummaryDataGridView.Bottom + 1;
+            TotalTotalWeightTextBox.Left = left + GarlicVarietyColumnWidth + DescriptionColumnWidth + NumberSoldColumnWidth;
+            TotalTotalWeightTextBox.Width = TotalWeightColumnWidth;
+            TotalTotalValueTextBox.Top = MarketSummaryDataGridView.Bottom + 1;
+            TotalTotalValueTextBox.Left = left + GarlicVarietyColumnWidth + DescriptionColumnWidth + NumberSoldColumnWidth + TotalWeightColumnWidth;
+            TotalTotalValueTextBox.Width = TotalValueColumnWidth;
+        }
+    }
 }
