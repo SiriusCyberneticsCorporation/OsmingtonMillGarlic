@@ -17,6 +17,69 @@ namespace OsmingtonMillGarlic
 			InitializeComponent();
 		}
 
+		private void OMG_MainForm_Load(object sender, EventArgs e)
+		{
+			if (Properties.Settings.Default.WindowMaximized)
+			{
+				WindowState = FormWindowState.Maximized;
+				Location = Properties.Settings.Default.WindowLocation;
+				Size = Properties.Settings.Default.WindowSize;
+			}
+			else if (Properties.Settings.Default.WindowMinimized)
+			{
+				WindowState = FormWindowState.Minimized;
+				Location = Properties.Settings.Default.WindowLocation;
+				Size = Properties.Settings.Default.WindowSize;
+			}
+			else
+			{
+				Location = Properties.Settings.Default.WindowLocation;
+				Size = Properties.Settings.Default.WindowSize;
+			}
+		}
+
+		private void OMG_MainForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			bool okToClose = true;
+
+			foreach (Form childForm in this.MdiChildren)
+			{
+				if (!((IChildForm)childForm).CanClose())
+				{
+					okToClose = false;
+					break;
+				}
+			}
+
+			if (!okToClose)
+			{
+				e.Cancel = true;
+			}
+
+			if (WindowState == FormWindowState.Maximized)
+			{
+				Properties.Settings.Default.WindowLocation = RestoreBounds.Location;
+				Properties.Settings.Default.WindowSize = RestoreBounds.Size;
+				Properties.Settings.Default.WindowMaximized = true;
+				Properties.Settings.Default.WindowMinimized = false;
+			}
+			else if (WindowState == FormWindowState.Normal)
+			{
+				Properties.Settings.Default.WindowLocation = Location;
+				Properties.Settings.Default.WindowSize = Size;
+				Properties.Settings.Default.WindowMaximized = false;
+				Properties.Settings.Default.WindowMinimized = false;
+			}
+			else
+			{
+				Properties.Settings.Default.WindowLocation = RestoreBounds.Location;
+				Properties.Settings.Default.WindowSize = RestoreBounds.Size;
+				Properties.Settings.Default.WindowMaximized = false;
+				Properties.Settings.Default.WindowMinimized = true;
+			}
+			Properties.Settings.Default.Save();
+		}
+
 		public void RefreshDisplay()
 		{
 			foreach(Form childForm in this.MdiChildren)
@@ -75,25 +138,6 @@ namespace OsmingtonMillGarlic
 		private void ListAllInvoicesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			ShowInvoicesForm();
-		}
-
-		private void OMG_MainForm_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			bool okToClose = true;
-
-			foreach (Form childForm in this.MdiChildren)
-			{
-				if(!((IChildForm)childForm).CanClose())
-				{
-					okToClose = false;
-					break;
-				}
-			}
-
-			if (!okToClose)
-			{
-				e.Cancel = true;
-			}
 		}
 
 		private void cascadeToolStripMenuItem_Click(object sender, EventArgs e)

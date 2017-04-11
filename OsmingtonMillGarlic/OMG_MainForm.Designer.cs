@@ -45,6 +45,8 @@
 			this.tileVerticallyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.closeAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+			this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.marketSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.ProductsToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -55,8 +57,6 @@
 			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.InvoicesToolStripButton = new System.Windows.Forms.ToolStripButton();
 			this.NewInvoiceToolStripButton = new System.Windows.Forms.ToolStripButton();
-			this.reportsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.marketSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.MainMenu.SuspendLayout();
 			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -194,6 +194,21 @@
 			this.toolStripMenuItem1.Name = "toolStripMenuItem1";
 			this.toolStripMenuItem1.Size = new System.Drawing.Size(157, 6);
 			// 
+			// reportsToolStripMenuItem
+			// 
+			this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.marketSummaryToolStripMenuItem});
+			this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
+			this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+			this.reportsToolStripMenuItem.Text = "Reports";
+			// 
+			// marketSummaryToolStripMenuItem
+			// 
+			this.marketSummaryToolStripMenuItem.Name = "marketSummaryToolStripMenuItem";
+			this.marketSummaryToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+			this.marketSummaryToolStripMenuItem.Text = "Market Summary";
+			this.marketSummaryToolStripMenuItem.Click += new System.EventHandler(this.marketSummaryToolStripMenuItem_Click);
+			// 
 			// toolStrip1
 			// 
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -293,21 +308,6 @@
 			this.NewInvoiceToolStripButton.Text = "New Invoice";
 			this.NewInvoiceToolStripButton.Click += new System.EventHandler(this.NewInvoiceToolStripButton_Click);
 			// 
-			// reportsToolStripMenuItem
-			// 
-			this.reportsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.marketSummaryToolStripMenuItem});
-			this.reportsToolStripMenuItem.Name = "reportsToolStripMenuItem";
-			this.reportsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
-			this.reportsToolStripMenuItem.Text = "Reports";
-			// 
-			// marketSummaryToolStripMenuItem
-			// 
-			this.marketSummaryToolStripMenuItem.Name = "marketSummaryToolStripMenuItem";
-			this.marketSummaryToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
-			this.marketSummaryToolStripMenuItem.Text = "Market Summary";
-			this.marketSummaryToolStripMenuItem.Click += new System.EventHandler(this.marketSummaryToolStripMenuItem_Click);
-			// 
 			// OMG_MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -322,6 +322,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Osmington Mill Garlic";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OMG_MainForm_FormClosing);
+			this.Load += new System.EventHandler(this.OMG_MainForm_Load);
 			this.MainMenu.ResumeLayout(false);
 			this.MainMenu.PerformLayout();
 			this.toolStrip1.ResumeLayout(false);
